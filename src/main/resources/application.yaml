@@ -1,31 +1,4 @@
 spring:
-  application:
-    name: KoffeeStrap
+  profiles:
+    active: dev
 
-  freemarker:
-    template-loader-path: classpath:/templates/
-    suffix: .ftl
-    cache: false
-    expose-request-attributes: true
-    expose-session-attributes: true
-
-  devtools:
-    restart:
-      enabled: true
-
-  datasource:
-    url: jdbc:postgresql://localhost:5432/myappdb
-    username: kothein
-    password: postgres
-    driver-class-name: org.postgresql.Driver
-
-  jpa:
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: true
-
-server:
-  port: 8080
