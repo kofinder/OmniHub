@@ -1,4 +1,4 @@
-package org.kt.koffeestrap
+package com.finderbar.omnihub
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.builder.SpringApplicationBuilder
@@ -7,13 +7,13 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 
 
 @SpringBootApplication
-class KoffeeStrapApplication : SpringBootServletInitializer() {
+class OmniHubApplication : SpringBootServletInitializer() {
     override fun configure(builder: SpringApplicationBuilder): SpringApplicationBuilder {
-        return builder.sources(KoffeeStrapApplication::class.java)
+        return builder.sources(OmniHubApplication::class.java)
     }
 }
 
 
 fun main(args: Array<String>) {
-    runApplication<KoffeeStrapApplication>(*args)
+    runApplication<OmniHubApplication>(*args)
 }

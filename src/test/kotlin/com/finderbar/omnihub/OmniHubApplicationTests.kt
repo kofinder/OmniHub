@@ -1,10 +1,10 @@
-package org.kt.koffeestrap
+package com.finderbar.omnihub
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class KoffeeStrapApplicationTests {
+class OmniHubApplicationTests {
 
     @Test
     fun contextLoads() {

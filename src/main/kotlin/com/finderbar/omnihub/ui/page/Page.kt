@@ -1,7 +1,7 @@
-package org.kt.koffeestrap.ui.page
+package com.finderbar.omnihub.ui.page
 
-import org.kt.koffeestrap.ui.core.UIModel
-import org.kt.koffeestrap.ui.layout.Layout
+import com.finderbar.omnihub.ui.core.UIModel
+import com.finderbar.omnihub.ui.layout.Layout
 
 
 abstract class Page<M, C, CX>(

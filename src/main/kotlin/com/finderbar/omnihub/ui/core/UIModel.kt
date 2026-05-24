@@ -1,4 +1,4 @@
-package org.kt.koffeestrap.ui.core
+package com.finderbar.omnihub.ui.core
 
 /**
  * Base UI model container for model data, configuration, and runtime context.

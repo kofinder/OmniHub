@@ -1,6 +1,6 @@
-package org.kt.koffeestrap.ui.security
+package com.finderbar.omnihub.ui.security
 
-import org.kt.koffeestrap.ui.core.UIModel
+import com.finderbar.omnihub.ui.core.UIModel
 
 
 abstract class Security<M, C, CX>(

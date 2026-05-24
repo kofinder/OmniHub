@@ -1,4 +1,4 @@
-package org.kt.koffeestrap
+package com.finderbar.omnihub.modules
 
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model

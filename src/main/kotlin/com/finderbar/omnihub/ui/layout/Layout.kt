@@ -1,6 +1,6 @@
-package org.kt.koffeestrap.ui.layout
+package com.finderbar.omnihub.ui.layout
 
-import org.kt.koffeestrap.ui.core.UIModel
+import com.finderbar.omnihub.ui.core.UIModel
 
 
 abstract class Layout<M, C, CX>(

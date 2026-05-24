@@ -1,4 +1,4 @@
-package org.kt.koffeestrap.ui.component.button
+package com.finderbar.omnihub.ui.component.button
 
 enum class ButtonType(val value: String) {
     BUTTON("button"),

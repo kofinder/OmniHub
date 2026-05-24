@@ -1,6 +1,6 @@
-package org.kt.koffeestrap.ui.extension
+package com.finderbar.omnihub.ui.extension
 
-import org.kt.koffeestrap.ui.core.UIModel
+import com.finderbar.omnihub.ui.core.UIModel
 
 
 abstract class Extension<M, C, CX>(

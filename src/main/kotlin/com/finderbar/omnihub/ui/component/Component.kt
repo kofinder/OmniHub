@@ -1,6 +1,6 @@
-package org.kt.koffeestrap.ui.component
+package com.finderbar.omnihub.ui.component
 
-import org.kt.koffeestrap.ui.core.UIModel
+import com.finderbar.omnihub.ui.core.UIModel
 
 
 abstract class Component<M, C, CX>(

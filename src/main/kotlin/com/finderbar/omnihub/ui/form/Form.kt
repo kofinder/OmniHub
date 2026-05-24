@@ -1,6 +1,6 @@
-package org.kt.koffeestrap.ui.form
+package com.finderbar.omnihub.ui.form
 
-import org.kt.koffeestrap.ui.component.Component
+import com.finderbar.omnihub.ui.component.Component
 
 
 abstract class Form<M, C, CX>(

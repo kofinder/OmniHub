@@ -1,6 +1,6 @@
-package org.kt.koffeestrap.ui.component.button
+package com.finderbar.omnihub.ui.component.button
 
-import org.kt.koffeestrap.ui.component.Component
+import com.finderbar.omnihub.ui.component.Component
 
 class ButtonComponent(
     override val model: Unit = Unit,
