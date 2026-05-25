@@ -13,7 +13,6 @@ class OmniHubApplication : SpringBootServletInitializer() {
     }
 }
 
-
 fun main(args: Array<String>) {
     runApplication<OmniHubApplication>(*args)
 }
