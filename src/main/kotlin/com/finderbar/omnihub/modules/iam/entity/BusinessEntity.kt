@@ -1,24 +1,19 @@
-package com.finderbar.omnihub.modules.iam
-
+package com.finderbar.omnihub.modules.iam.entity
 import com.finderbar.omnihub.core.BaseEntity
 import jakarta.persistence.*
 
 @Entity
 @Table(
-    schema = "core",
-    name = "branch",
+    schema = "iam",
+    name = "business",
     indexes = [
         Index(
-            name = "idx_branch_office_id",
-            columnList = "office_id"
-        ),
-        Index(
-            name = "idx_branch_code",
+            name = "idx_business_code",
             columnList = "code"
         )
     ]
 )
-class BranchEntity(
+class BusinessEntity(
 
     @Column(
         name = "name",
@@ -34,16 +29,6 @@ class BranchEntity(
         length = 100
     )
     var code: String,
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(
-        name = "office_id",
-        nullable = false,
-        foreignKey = ForeignKey(
-            name = "fk_branch_office"
-        )
-    )
-    var office: OfficeEntity,
 
     @Column(
         name = "phone",
@@ -62,6 +47,11 @@ class BranchEntity(
         columnDefinition = "TEXT"
     )
     var address: String? = null,
+
+    @Column(
+        name = "logo"
+    )
+    var logo: String? = null,
 
     @Column(
         name = "active",

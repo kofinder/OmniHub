@@ -1,32 +1,42 @@
 package com.finderbar.omnihub.security.config
 
+import com.finderbar.omnihub.security.handler.CustomAccessDeniedHandler
+import com.finderbar.omnihub.security.handler.UnauthorizedEntryPoint
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.annotation.Order
-import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
 
 @Configuration
-class SecurityConfig {
+class SecurityConfig(
+
+    private val unauthorizedEntryPoint: UnauthorizedEntryPoint,
+
+    private val customAccessDeniedHandler: CustomAccessDeniedHandler
+
+) {
 
     @Bean
     @Order(2)
-    fun applicationSecurityFilterChain(
+    fun apiSecurityFilterChain(
         http: HttpSecurity
     ): SecurityFilterChain {
 
         http
+
+            .securityMatcher(
+                "/api/**",
+                "/graphql/**"
+            )
+
             .csrf {
                 it.disable()
             }
 
-            .cors {
-                Customizer.withDefaults()
-            }
-
             .sessionManagement {
+
                 it.sessionCreationPolicy(
                     SessionCreationPolicy.STATELESS
                 )
@@ -38,20 +48,47 @@ class SecurityConfig {
                     "/api/auth/**"
                 ).permitAll()
 
+                it.anyRequest().authenticated()
+            }
+
+            .exceptionHandling {
+
+                it.authenticationEntryPoint(
+                    unauthorizedEntryPoint
+                )
+
+                it.accessDeniedHandler(
+                    customAccessDeniedHandler
+                )
+            }
+
+            .oauth2ResourceServer { oauth2 ->
+
+                oauth2.jwt { }
+            }
+
+        return http.build()
+    }
+
+    @Bean
+    @Order(3)
+    fun webSecurityFilterChain(
+        http: HttpSecurity
+    ): SecurityFilterChain {
+
+        http
+
+            .authorizeHttpRequests {
+
                 it.requestMatchers(
-                    "/graphql"
-                ).authenticated()
+                    "/",
+                    "/assets/**"
+                ).permitAll()
 
                 it.anyRequest().authenticated()
             }
 
-            .oauth2ResourceServer {
-                it.jwt(Customizer.withDefaults())
-            }
-
-            .formLogin {
-                Customizer.withDefaults()
-            }
+            .formLogin { }
 
         return http.build()
     }

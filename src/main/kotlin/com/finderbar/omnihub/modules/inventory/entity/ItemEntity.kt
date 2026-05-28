@@ -1,7 +1,6 @@
 package com.finderbar.omnihub.modules.inventory.entity
 
 import com.finderbar.omnihub.core.BaseEntity
-import com.finderbar.omnihub.modules.business.BusinessEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
@@ -18,7 +17,7 @@ import java.math.BigDecimal
     schema = "inventory",
     name = "item",
     indexes = [
-        Index(name = "idx_item_business_id", columnList = "business_id"),
+//        Index(name = "idx_item_business_id", columnList = "business_id"),
         Index(name = "idx_item_product_id", columnList = "product_id")
     ]
 )
@@ -31,14 +30,6 @@ class ItemEntity(
         foreignKey = ForeignKey(name = "fk_item_product")
     )
     var product: ProductEntity,
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(
-        name = "business_id",
-        nullable = false,
-        foreignKey = ForeignKey(name = "fk_item_business")
-    )
-    var business: BusinessEntity,
 
     @Column(
         name = "cost_price",

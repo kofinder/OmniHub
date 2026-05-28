@@ -16,7 +16,7 @@ import java.util.UUID
     schema = "inventory",
     name = "category",
     indexes = [
-        Index(name = "idx_category_business_id", columnList = "business_id"),
+//        Index(name = "idx_category_business_id", columnList = "business_id"),
         Index(name = "idx_category_parent_id", columnList = "parent_id"),
         Index(name = "idx_category_code", columnList = "code")
     ]
@@ -34,9 +34,6 @@ class CategoryEntity(
 
     @Column(name = "description", columnDefinition = "TEXT")
     var description: String? = null,
-
-    @Column(name = "business_id", nullable = false)
-    var businessId: UUID,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(

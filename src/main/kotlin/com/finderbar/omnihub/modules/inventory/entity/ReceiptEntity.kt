@@ -5,7 +5,7 @@ import jakarta.persistence.*
 
 @Entity
 @Table(
-    schema = "sales",
+    schema = "inventory",
     name = "receipt"
 )
 class ReceiptEntity(

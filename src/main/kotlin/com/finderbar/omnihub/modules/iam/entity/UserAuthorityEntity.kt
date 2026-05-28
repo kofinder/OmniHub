@@ -1,4 +1,4 @@
-package com.finderbar.omnihub.modules.iam
+package com.finderbar.omnihub.modules.iam.entity
 
 import com.finderbar.omnihub.core.BaseEntity
 import jakarta.persistence.*

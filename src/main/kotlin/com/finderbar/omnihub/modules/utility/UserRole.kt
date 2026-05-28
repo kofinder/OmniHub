@@ -1,4 +1,4 @@
-package com.finderbar.omnihub.modules.iam
+package com.finderbar.omnihub.modules.utility
 
 enum class UserRole {
 

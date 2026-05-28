@@ -28,7 +28,7 @@ import java.security.interfaces.RSAPublicKey
 import java.util.*
 
 @Configuration
-class OAuth2AuthorizationServerConfig(
+class AuthorizationServerConfig(
     private val passwordEncoder: PasswordEncoder
 ) {
 

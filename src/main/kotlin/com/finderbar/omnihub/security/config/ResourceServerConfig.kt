@@ -26,11 +26,6 @@ class ResourceServerConfig {
             .csrf {
                 it.disable()
             }
-
-//            .cors {
-//                Customizer.withDefaults<T>()
-//            }
-
             .sessionManagement {
                 it.sessionCreationPolicy(
                     SessionCreationPolicy.STATELESS
@@ -38,7 +33,6 @@ class ResourceServerConfig {
             }
 
             .authorizeHttpRequests {
-
                 it.requestMatchers(
                     "/api/auth/**"
                 ).permitAll()
@@ -46,12 +40,10 @@ class ResourceServerConfig {
                 it.requestMatchers(
                     "/graphql"
                 ).authenticated()
-
                 it.anyRequest().authenticated()
             }
 
             .oauth2ResourceServer {
-
                 it.jwt(
                     Customizer.withDefaults()
                 )

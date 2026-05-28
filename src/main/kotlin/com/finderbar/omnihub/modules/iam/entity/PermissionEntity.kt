@@ -1,28 +1,29 @@
-package com.finderbar.omnihub.modules.iam
+package com.finderbar.omnihub.modules.iam.entity
+
+
 import com.finderbar.omnihub.core.BaseEntity
 import jakarta.persistence.*
 
 @Entity
 @Table(
     schema = "iam",
-    name = "authority",
-    indexes = [
-        Index(
-            name = "idx_authority_name",
-            columnList = "name",
-            unique = true
-        )
-    ]
+    name = "permission"
 )
-class AuthorityEntity(
+class PermissionEntity(
 
     @Column(
         name = "name",
         nullable = false,
-        unique = true,
-        length = 100
+        unique = true
     )
     var name: String,
+
+    @Column(
+        name = "code",
+        nullable = false,
+        unique = true
+    )
+    var code: String,
 
     @Column(
         name = "description",

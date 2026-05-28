@@ -6,7 +6,7 @@ import java.math.BigDecimal
 
 @Entity
 @Table(
-    schema = "sales",
+    schema = "inventory",
     name = "sale_transaction_line"
 )
 class SaleTransactionLineEntity(

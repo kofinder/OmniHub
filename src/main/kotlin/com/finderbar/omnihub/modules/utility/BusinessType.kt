@@ -1,4 +1,4 @@
-package com.finderbar.omnihub.modules.business
+package com.finderbar.omnihub.modules.utility
 
 enum class BusinessType {
     RESTAURANT,

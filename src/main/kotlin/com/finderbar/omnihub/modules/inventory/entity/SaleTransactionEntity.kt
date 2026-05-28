@@ -8,11 +8,11 @@ import java.math.BigDecimal
 
 @Entity
 @Table(
-    schema = "sales",
+    schema = "inventory",
     name = "sale_transaction",
     indexes = [
-        Index(name = "idx_sale_transaction_business_id", columnList = "business_id"),
-        Index(name = "idx_sale_transaction_branch_id", columnList = "branch_id"),
+//        Index(name = "idx_sale_transaction_business_id", columnList = "business_id"),
+//        Index(name = "idx_sale_transaction_branch_id", columnList = "branch_id"),
         Index(name = "idx_sale_transaction_invoice_no", columnList = "invoice_no")
     ]
 )
