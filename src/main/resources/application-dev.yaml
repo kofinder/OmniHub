@@ -20,12 +20,12 @@ spring:
 
   datasource:
     master:
-      url: jdbc:postgresql://localhost:5432/myappdb
+      url: jdbc:postgresql://localhost:5432/omnihub
       username: kothein
       password: postgres
       driver-class-name: org.postgresql.Driver
     slave:
-      url: jdbc:postgresql://localhost:5432/myappdb
+      url: jdbc:postgresql://localhost:5432/omnihub
       username: kothein
       password: postgres
       driver-class-name: org.postgresql.Driver

@@ -5,17 +5,15 @@ import com.finderbar.omnihub.security.handler.UnauthorizedEntryPoint
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.annotation.Order
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
 
 @Configuration
 class SecurityConfig(
-
     private val unauthorizedEntryPoint: UnauthorizedEntryPoint,
-
     private val customAccessDeniedHandler: CustomAccessDeniedHandler
-
 ) {
 
     @Bean
@@ -25,18 +23,13 @@ class SecurityConfig(
     ): SecurityFilterChain {
 
         http
-
-            .securityMatcher(
-                "/api/**",
-                "/graphql/**"
-            )
+            .securityMatcher("/api/**")
 
             .csrf {
                 it.disable()
             }
 
             .sessionManagement {
-
                 it.sessionCreationPolicy(
                     SessionCreationPolicy.STATELESS
                 )
@@ -62,9 +55,8 @@ class SecurityConfig(
                 )
             }
 
-            .oauth2ResourceServer { oauth2 ->
-
-                oauth2.jwt { }
+            .oauth2ResourceServer {
+                it.jwt { }
             }
 
         return http.build()

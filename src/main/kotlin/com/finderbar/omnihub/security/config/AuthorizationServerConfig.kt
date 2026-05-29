@@ -1,5 +1,6 @@
 package com.finderbar.omnihub.security.config
 
+import com.finderbar.omnihub.modules.iam.repository.OAuthClientRepository
 import com.nimbusds.jose.jwk.JWKSet
 import com.nimbusds.jose.jwk.RSAKey
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet
@@ -29,7 +30,8 @@ import java.util.*
 
 @Configuration
 class AuthorizationServerConfig(
-    private val passwordEncoder: PasswordEncoder
+    private val passwordEncoder: PasswordEncoder,
+    private val oauthClientRepository: OAuthClientRepository
 ) {
 
     @Bean
@@ -38,93 +40,51 @@ class AuthorizationServerConfig(
         http: HttpSecurity
     ): SecurityFilterChain {
 
-        val authorizationServerConfigurer =
-            OAuth2AuthorizationServerConfigurer()
-
+        val authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer()
         http
-            .securityMatcher(
-                authorizationServerConfigurer.endpointsMatcher
-            )
-
-            .with(
-                authorizationServerConfigurer
-            ) {
-                it.oidc(Customizer.withDefaults())
-            }
-
-            .authorizeHttpRequests {
-                it.anyRequest().authenticated()
-            }
-
+            .securityMatcher(authorizationServerConfigurer.endpointsMatcher)
+            .with(authorizationServerConfigurer) {it.oidc(Customizer.withDefaults())}
+            .authorizeHttpRequests {it.anyRequest().authenticated()}
             .exceptionHandling {
-                it.authenticationEntryPoint(
-                    LoginUrlAuthenticationEntryPoint(
-                        "/login"
-                    )
-                )
+                it.authenticationEntryPoint(LoginUrlAuthenticationEntryPoint("/login"))
             }
-
         return http.build()
     }
 
     @Bean
     fun registeredClientRepository(): RegisteredClientRepository {
-
-        val registeredClient = RegisteredClient.withId(
-            UUID.randomUUID().toString()
-        )
-            .clientId("omnihub-client")
-
-            .clientSecret(
-                passwordEncoder.encode("secret")
-            )
-
-            .clientAuthenticationMethod(
-                ClientAuthenticationMethod.CLIENT_SECRET_BASIC
-            )
-
-            .authorizationGrantType(
-                AuthorizationGrantType.AUTHORIZATION_CODE
-            )
-
-            .authorizationGrantType(
-                AuthorizationGrantType.REFRESH_TOKEN
-            )
-
-            .redirectUri(
-                "http://127.0.0.1:3000/login/oauth2/code/omnihub"
-            )
-
-            .scope("openid")
-            .scope("profile")
-            .scope("read")
-            .scope("write")
-
-            .build()
-
-        return InMemoryRegisteredClientRepository(
-            registeredClient
-        )
+        val clients = oauthClientRepository.findAll()
+        val registeredClients = clients.map { client ->
+            RegisteredClient.withId(
+                client.id.toString()
+            ).clientId(client.clientId)
+                .clientSecret(client.clientSecret)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                .authorizationGrantType(AuthorizationGrantType.JWT_BEARER)
+                .authorizationGrantType(AuthorizationGrantType.DEVICE_CODE)
+                .authorizationGrantType(AuthorizationGrantType.TOKEN_EXCHANGE)
+                .redirectUri(client.redirectUris!!)
+                .scope("openid")
+                .scope("profile")
+                .scope("read")
+                .scope("write")
+                .build()
+        }
+        return InMemoryRegisteredClientRepository(registeredClients)
     }
 
     @Bean
     fun jwkSource(): JWKSource<SecurityContext> {
-
         val keyPair = generateRsaKey()
-
-        val rsaKey = RSAKey.Builder(
-            keyPair.public as RSAPublicKey
-        )
-            .privateKey(
-                keyPair.private as RSAPrivateKey
-            )
-            .keyID(
-                UUID.randomUUID().toString()
-            )
+        val rsaKey = RSAKey.Builder(keyPair.public as RSAPublicKey)
+            .privateKey(keyPair.private as RSAPrivateKey)
+            .keyID(UUID.randomUUID().toString())
             .build()
 
         val jwkSet = JWKSet(rsaKey)
-
         return ImmutableJWKSet(jwkSet)
     }
 
@@ -132,18 +92,13 @@ class AuthorizationServerConfig(
     fun jwtDecoder(
         jwkSource: JWKSource<SecurityContext>
     ): JwtDecoder {
-
         return OAuth2AuthorizationServerConfiguration
             .jwtDecoder(jwkSource)
     }
 
     private fun generateRsaKey(): KeyPair {
-
-        val keyPairGenerator =
-            KeyPairGenerator.getInstance("RSA")
-
+        val keyPairGenerator = KeyPairGenerator.getInstance("RSA")
         keyPairGenerator.initialize(2048)
-
         return keyPairGenerator.generateKeyPair()
     }
 }
