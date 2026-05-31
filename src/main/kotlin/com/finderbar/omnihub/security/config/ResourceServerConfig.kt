@@ -17,12 +17,10 @@ class ResourceServerConfig {
     ): SecurityFilterChain {
 
         http
-
             .securityMatcher(
                 "/api/**",
                 "/graphql/**"
             )
-
             .csrf {
                 it.disable()
             }

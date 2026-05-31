@@ -9,7 +9,9 @@ import com.nimbusds.jose.proc.SecurityContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.annotation.Order
+import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.Customizer
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer
@@ -17,6 +19,10 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.oauth2.core.AuthorizationGrantType
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod
 import org.springframework.security.oauth2.jwt.JwtDecoder
+import org.springframework.security.oauth2.server.authorization.InMemoryOAuth2AuthorizationConsentService
+import org.springframework.security.oauth2.server.authorization.InMemoryOAuth2AuthorizationService
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService
 import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository
@@ -36,36 +42,41 @@ class AuthorizationServerConfig(
 
     @Bean
     @Order(1)
-    fun authorizationServerSecurityFilterChain(
-        http: HttpSecurity
-    ): SecurityFilterChain {
+    fun authorizationServerSecurityFilterChain(http: HttpSecurity): SecurityFilterChain {
 
-        val authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer()
+        val authorizationServerConfigurer =
+            OAuth2AuthorizationServerConfigurer()
+
         http
             .securityMatcher(authorizationServerConfigurer.endpointsMatcher)
-            .with(authorizationServerConfigurer) {it.oidc(Customizer.withDefaults())}
-            .authorizeHttpRequests {it.anyRequest().authenticated()}
+            .with(authorizationServerConfigurer) {
+                it.oidc(Customizer.withDefaults())
+            }
+            .authorizeHttpRequests {
+                it.anyRequest().authenticated()
+            }
             .exceptionHandling {
                 it.authenticationEntryPoint(LoginUrlAuthenticationEntryPoint("/login"))
             }
+
         return http.build()
     }
 
     @Bean
     fun registeredClientRepository(): RegisteredClientRepository {
+
         val clients = oauthClientRepository.findAll()
+
         val registeredClients = clients.map { client ->
-            RegisteredClient.withId(
-                client.id.toString()
-            ).clientId(client.clientId)
-                .clientSecret(client.clientSecret)
+
+            RegisteredClient.withId(client.id.toString())
+                .clientId(client.clientId)
+                .clientSecret(passwordEncoder.encode(client.clientSecret))
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                .authorizationGrantType(AuthorizationGrantType.JWT_BEARER)
-                .authorizationGrantType(AuthorizationGrantType.DEVICE_CODE)
-                .authorizationGrantType(AuthorizationGrantType.TOKEN_EXCHANGE)
+                .authorizationGrantType(AuthorizationGrantType("password"))
                 .redirectUri(client.redirectUris!!)
                 .scope("openid")
                 .scope("profile")
@@ -73,32 +84,33 @@ class AuthorizationServerConfig(
                 .scope("write")
                 .build()
         }
+
         return InMemoryRegisteredClientRepository(registeredClients)
     }
 
     @Bean
     fun jwkSource(): JWKSource<SecurityContext> {
-        val keyPair = generateRsaKey()
+        val keyPair = KeyPairGenerator.getInstance("RSA").apply {
+            initialize(2048)
+        }.generateKeyPair()
+
         val rsaKey = RSAKey.Builder(keyPair.public as RSAPublicKey)
             .privateKey(keyPair.private as RSAPrivateKey)
             .keyID(UUID.randomUUID().toString())
             .build()
 
-        val jwkSet = JWKSet(rsaKey)
-        return ImmutableJWKSet(jwkSet)
+        return ImmutableJWKSet(JWKSet(rsaKey))
     }
 
     @Bean
-    fun jwtDecoder(
-        jwkSource: JWKSource<SecurityContext>
-    ): JwtDecoder {
-        return OAuth2AuthorizationServerConfiguration
-            .jwtDecoder(jwkSource)
-    }
+    fun authorizationService(): OAuth2AuthorizationService =
+        InMemoryOAuth2AuthorizationService()
 
-    private fun generateRsaKey(): KeyPair {
-        val keyPairGenerator = KeyPairGenerator.getInstance("RSA")
-        keyPairGenerator.initialize(2048)
-        return keyPairGenerator.generateKeyPair()
-    }
+    @Bean
+    fun authorizationConsentService(): OAuth2AuthorizationConsentService =
+        InMemoryOAuth2AuthorizationConsentService()
+
+    @Bean
+    fun authenticationManager(config: AuthenticationConfiguration): AuthenticationManager =
+        config.authenticationManager
 }
