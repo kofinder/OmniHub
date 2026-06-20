@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: OmniHub
+
+  freemarker:
+    template-loader-path: classpath:/templates/
+    suffix: .ftl
+    cache: false
+    expose-request-attributes: true
+    expose-session-attributes: true
+
+  devtools:
+    restart:
+      enabled: true
+
+  datasource:
+    master:
+      url: jdbc:postgresql://localhost:5432/omnihub
+      username: kothein
+      password: postgres
+      driver-class-name: org.postgresql.Driver
+    slave:
+      url: jdbc:postgresql://localhost:5432/omnihub
+      username: kothein
+      password: postgres
+      driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migratio
+
+jwt:
+  secret: 1234567890123456789012345678901234567890123456789012345678901234
+  expiration: 86400000
+
+server:
+  port: 8080
+  forward-headers-strategy: framework
