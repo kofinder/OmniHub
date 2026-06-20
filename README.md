@@ -1,1 +1,0 @@
-A modern multi-business retail management platform built with Kotlin + Spring Boot.
