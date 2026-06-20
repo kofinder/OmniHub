@@ -1,0 +1,31 @@
+package com.finderbar.omnihub.security.filter
+
+import com.finderbar.omnihub.security.model.RequestContext
+import jakarta.servlet.FilterChain
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.stereotype.Component
+import org.springframework.web.filter.OncePerRequestFilter
+import java.util.UUID
+
+@Component
+class RequestContextFilter : OncePerRequestFilter() {
+
+    override fun doFilterInternal(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        filterChain: FilterChain
+    ) {
+        try {
+            val requestId = UUID.randomUUID().toString()
+            RequestContext.setRequestId(requestId)
+            val auth = SecurityContextHolder.getContext().authentication
+            val username = auth?.name ?: "anonymous"
+            RequestContext.setUsername(username)
+            filterChain.doFilter(request, response)
+        } finally {
+            RequestContext.clear()
+        }
+    }
+}

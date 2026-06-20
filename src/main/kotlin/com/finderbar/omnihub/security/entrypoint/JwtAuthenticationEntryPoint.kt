@@ -1,4 +1,4 @@
-package com.finderbar.omnihub.security
+package com.finderbar.omnihub.security.entrypoint
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.servlet.http.HttpServletRequest

@@ -1,7 +1,7 @@
 package com.finderbar.omnihub.config.security
 
-import com.finderbar.omnihub.security.JwtAuthenticationEntryPoint
-import com.finderbar.omnihub.security.JwtAuthenticationFilter
+import com.finderbar.omnihub.security.entrypoint.JwtAuthenticationEntryPoint
+import com.finderbar.omnihub.security.filter.JwtAuthenticationFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager

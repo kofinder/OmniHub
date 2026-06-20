@@ -5,41 +5,28 @@ import jakarta.persistence.*
 @Entity
 @Table(
     schema = "iam",
-    name = "role"
+    name = "role",
+    uniqueConstraints = [
+        UniqueConstraint(
+            name = "uk_role_code",
+            columnNames = ["code"]
+        )
+    ]
 )
 class RoleEntity(
-
     @Column(
-        name = "name",
         nullable = false,
-        unique = true
-    )
-    var name: String,
-
-    @Column(
-        name = "code",
-        nullable = false,
-        unique = true
+        length = 100
     )
     var code: String,
 
     @Column(
-        name = "description",
-        columnDefinition = "TEXT"
+        nullable = false,
+        length = 255
     )
-    var description: String? = null,
+    var name: String,
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        schema = "iam",
-        name = "role_permission",
-        joinColumns = [
-            JoinColumn(name = "role_id")
-        ],
-        inverseJoinColumns = [
-            JoinColumn(name = "permission_id")
-        ]
-    )
-    var permissions: MutableSet<PermissionEntity> = mutableSetOf()
+    @Column(columnDefinition = "TEXT")
+    var description: String? = null
 
 ) : BaseEntity()

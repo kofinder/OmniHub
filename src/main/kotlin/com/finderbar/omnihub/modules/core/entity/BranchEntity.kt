@@ -1,24 +1,27 @@
-package com.finderbar.omnihub.modules.iam.entity
-
+package com.finderbar.omnihub.modules.core.entity
 import com.finderbar.omnihub.core.entity.BaseEntity
-import jakarta.persistence.*
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.FetchType
+import jakarta.persistence.ForeignKey
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.ManyToOne
+import jakarta.persistence.Table
 
 @Entity
 @Table(
-    schema = "iam",
+    schema = "core",
     name = "branch"
 )
 class BranchEntity(
 
     @Column(
-        name = "name",
         nullable = false,
         length = 255
     )
     var name: String,
 
     @Column(
-        name = "code",
         nullable = false,
         unique = true,
         length = 100
@@ -35,28 +38,16 @@ class BranchEntity(
     )
     var office: OfficeEntity,
 
-    @Column(
-        name = "phone",
-        length = 50
-    )
+    @Column(length = 50)
     var phone: String? = null,
 
-    @Column(
-        name = "email",
-        length = 255
-    )
+    @Column(length = 255)
     var email: String? = null,
 
-    @Column(
-        name = "address",
-        columnDefinition = "TEXT"
-    )
+    @Column(columnDefinition = "TEXT")
     var address: String? = null,
 
-    @Column(
-        name = "active",
-        nullable = false
-    )
+    @Column(nullable = false)
     var active: Boolean = true
 
 ) : BaseEntity()

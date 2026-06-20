@@ -1,5 +1,7 @@
-package com.finderbar.omnihub.security
+package com.finderbar.omnihub.security.filter
 
+import com.finderbar.omnihub.security.services.ApplicationUserDetailsService
+import com.finderbar.omnihub.security.services.JwtTokenService
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -11,7 +13,7 @@ import org.springframework.web.filter.OncePerRequestFilter
 
 @Component
 class JwtAuthenticationFilter(
-    private val jwtTokenManager: JwtTokenManager,
+    private val jwtTokenService: JwtTokenService,
     private val userDetailsService: ApplicationUserDetailsService
 ) : OncePerRequestFilter() {
 
@@ -30,12 +32,12 @@ class JwtAuthenticationFilter(
 
         val token = authHeader.substring(7)
 
-        if (!jwtTokenManager.validate(token)) {
+        if (!jwtTokenService.validate(token)) {
             chain.doFilter(request, response)
             return
         }
 
-        val username = jwtTokenManager.extractUsername(token)
+        val username = jwtTokenService.extractUsername(token)
 
         if (SecurityContextHolder.getContext().authentication == null) {
 

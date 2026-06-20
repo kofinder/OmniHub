@@ -16,26 +16,47 @@ spring:
   datasource:
     master:
       url: jdbc:postgresql://localhost:5432/omnihub
-      username: kothein
-      password: postgres
+      username: wantana
+      password: wantana2026!@#
       driver-class-name: org.postgresql.Driver
+      hikari:
+        minimum-idle: 5
+        maximum-pool-size: 20
+        idle-timeout: 300000
+        max-lifetime: 1800000
+        connection-timeout: 30000
+        pool-name: OminiHubPool
     slave:
       url: jdbc:postgresql://localhost:5432/omnihub
-      username: kothein
-      password: postgres
+      username: wantana
+      password: wantana2026!@#
       driver-class-name: org.postgresql.Driver
+      hikari:
+        minimum-idle: 5
+        maximum-pool-size: 20
+        idle-timeout: 300000
+        max-lifetime: 1800000
+        connection-timeout: 30000
+        pool-name: OminiHubPool
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     properties:
+      default_schema: public
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: true
+    show-sql: false
 
   flyway:
     enabled: true
-    locations: classpath:db/migratio
+    baseline-on-migrate: true
+    baseline-version: 1
+    locations:
+      - classpath:db/migration/core
+      - classpath:db/migration/iam
+      - classpath:db/seed/core
+      - classpath:db/seed/iam
 
 jwt:
   secret: 1234567890123456789012345678901234567890123456789012345678901234

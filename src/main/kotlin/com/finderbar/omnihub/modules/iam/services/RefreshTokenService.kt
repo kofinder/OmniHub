@@ -1,74 +1,58 @@
 package com.finderbar.omnihub.modules.iam.services
 
+import com.finderbar.omnihub.modules.iam.entity.RefreshTokenEntity
+import com.finderbar.omnihub.modules.iam.entity.UserAccountEntity
 import com.finderbar.omnihub.modules.iam.repository.RefreshTokenRepository
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 import java.util.*
 
 @Service
 class RefreshTokenService(
-    private val refreshTokenRepository: RefreshTokenRepository
+    private val repo: RefreshTokenRepository
 ) {
 
-    companion object {
-        private const val REFRESH_TOKEN_DAYS = 7L
-    }
+    fun create(
+        user: UserAccountEntity,
+        sessionId: String,
+        ip: String?
+    ): RefreshTokenEntity {
 
-    @Transactional
-    fun create(user: UserEntity): RefreshTokenEntity {
-
-        val refreshToken = RefreshTokenEntity(
-            token = UUID.randomUUID().toString(),
-            user = user,
-            expiresAt = LocalDateTime.now()
-                .plusDays(REFRESH_TOKEN_DAYS)
+        val token = UUID.randomUUID().toString()
+        return repo.save(
+            RefreshTokenEntity(
+                user = user,
+                token = token,
+                sessionId = sessionId,
+                expiredAt = LocalDateTime.now().plusDays(7),
+                ipAddress = ip
+            )
         )
-
-        return refreshTokenRepository.save(refreshToken)
     }
 
-    @Transactional(readOnly = true)
     fun validate(token: String): RefreshTokenEntity {
 
-        val refreshToken =
-            refreshTokenRepository.findByToken(token)
-                ?: throw IllegalArgumentException(
-                    "Invalid refresh token"
-                )
+        val stored = repo.findByToken(token)
+            ?: throw RuntimeException("Invalid refresh token")
 
-        if (refreshToken.revoked) {
-            throw IllegalArgumentException(
-                "Refresh token revoked"
-            )
+        if (stored.revoked) throw RuntimeException("Token revoked")
+
+        if (stored.used) throw RuntimeException("Token already used")
+
+        if (stored.expiredAt.isBefore(LocalDateTime.now())) {
+            throw RuntimeException("Token expired")
         }
 
-        if (
-            refreshToken.expiresAt.isBefore(
-                LocalDateTime.now()
-            )
-        ) {
-            throw IllegalArgumentException(
-                "Refresh token expired"
-            )
-        }
-
-        return refreshToken
+        return stored
     }
 
-    @Transactional
-    fun revoke(token: String) {
-        val refreshToken = refreshTokenRepository.findByToken(token) ?: return
-        refreshToken.revoked = true
-        refreshTokenRepository.save(refreshToken)
+    fun revoke(token: RefreshTokenEntity) {
+        token.revoked = true
+        repo.save(token)
     }
 
-    @Transactional
-    fun revokeAll(user: UserEntity) {
-        refreshTokenRepository
-            .findAllByUser(user)
-            .forEach {
-                it.revoked = true
-            }
+    fun markUsed(token: RefreshTokenEntity) {
+        token.used = true
+        repo.save(token)
     }
 }

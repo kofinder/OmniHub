@@ -1,6 +1,6 @@
 package com.finderbar.omnihub.config.security
 
-import com.finderbar.omnihub.modules.iam.repository.UserRepository
+import com.finderbar.omnihub.modules.iam.repository.UserAccountRepository
 import jakarta.transaction.Transactional
 import org.springframework.boot.CommandLineRunner
 import org.springframework.context.annotation.Bean
@@ -12,7 +12,7 @@ class DataInitializer {
     @Bean
     @Transactional
     fun initData(
-        userRepository: UserRepository,
+        userAccountRepository: UserAccountRepository,
 //        roleRepository: RoleRepository,
 //        permissionRepository: PermissionRepository,
 //        departmentRepository: DepartmentRepository
