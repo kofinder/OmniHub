@@ -75,7 +75,7 @@ class AuthenticationService(
             }
 
             // 4. GENERATE TOKENS
-            val accessToken = jwtTokenService.generateToken(principal)
+            val accessToken = jwtTokenService.generateToken(userEntity)
 
             val refreshToken = refreshService.create(
                 user = userEntity,
@@ -143,7 +143,7 @@ class AuthenticationService(
             emptyList()
         )
 
-        val accessToken = jwtTokenService.generateToken(principal)
+        val accessToken = jwtTokenService.generateToken(user)
 
         val newRefresh = refreshService.create(
             user = user,

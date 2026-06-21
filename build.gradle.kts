@@ -1,12 +1,19 @@
 plugins {
+//    kotlin("jvm") version "2.2.21"
+//    kotlin("plugin.spring") version "2.2.21"
+//    kotlin("plugin.jpa") version "2.2.21"
+//
+//    id("org.springframework.boot") version "4.0.0"
+//    id("io.spring.dependency-management") version "1.1.7"
+//
+//    war
+
     kotlin("jvm") version "2.2.21"
     kotlin("plugin.spring") version "2.2.21"
-    kotlin("plugin.jpa") version "2.2.21"
-
-    id("org.springframework.boot") version "4.0.0"
-    id("io.spring.dependency-management") version "1.1.7"
-
     war
+    id("org.springframework.boot") version "4.0.6"
+    id("io.spring.dependency-management") version "1.1.7"
+    kotlin("plugin.jpa") version "2.2.21"
 }
 
 group = "com.omnihub"
@@ -40,8 +47,8 @@ dependencies {
     // -----------------------------
 //    implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
-    implementation("org.springframework.boot:spring-boot-starter-oauth2-authorization-server")
+//    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+//    implementation("org.springframework.boot:spring-boot-starter-oauth2-authorization-server")
 
 
     //-----------------------------
@@ -60,10 +67,12 @@ dependencies {
     // Database
     // -----------------------------
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.flywaydb:flyway-core:12.+")
+    runtimeOnly("org.postgresql:postgresql:42.7.3")
 
-    implementation("org.flywaydb:flyway-core")
+//    implementation("org.flywaydb:flyway-core")
 
-    runtimeOnly("org.postgresql:postgresql")
+//    runtimeOnly("org.postgresql:postgresql")
 
     // -----------------------------
     // Kotlin
@@ -76,7 +85,7 @@ dependencies {
     // -----------------------------
     // Development
     // -----------------------------
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
+//    developmentOnly("org.springframework.boot:spring-boot-devtools")
 
     // -----------------------------
     // Tomcat WAR
@@ -97,10 +106,15 @@ dependencies {
 
 kotlin {
     compilerOptions {
-        freeCompilerArgs.addAll(
-            "-Xjsr305=strict"
-        )
+        freeCompilerArgs.addAll("-Xjsr305=strict", "-Xannotation-default-target=param-property")
     }
+}
+
+
+allOpen {
+    annotation("jakarta.persistence.Entity")
+    annotation("jakarta.persistence.MappedSuperclass")
+    annotation("jakarta.persistence.Embeddable")
 }
 
 tasks.withType<Test> {

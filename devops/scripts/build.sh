@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "================================="
-echo "Building KoffeeStrap Containers"
+echo "Building OmniHub Containers"
 echo "================================="
 
 cd ../compose || exit

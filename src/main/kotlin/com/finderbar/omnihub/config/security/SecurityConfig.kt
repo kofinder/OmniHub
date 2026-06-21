@@ -1,7 +1,9 @@
 package com.finderbar.omnihub.config.security
 
 import com.finderbar.omnihub.security.entrypoint.JwtAuthenticationEntryPoint
+import com.finderbar.omnihub.security.filter.ApplicationRequestContextFilter
 import com.finderbar.omnihub.security.filter.JwtAuthenticationFilter
+import com.finderbar.omnihub.security.filter.SecurityContextFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
@@ -20,6 +22,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 @EnableWebSecurity
 class SecurityConfig(
     private val jwtFilter: JwtAuthenticationFilter,
+    private val securityContextFilter: SecurityContextFilter,
+    private val applicationRequestContextFilter: ApplicationRequestContextFilter,
     private val authenticationEntryPoint: JwtAuthenticationEntryPoint
 ) {
     @Bean
@@ -49,6 +53,14 @@ class SecurityConfig(
             .addFilterBefore(
                 jwtFilter,
                 UsernamePasswordAuthenticationFilter::class.java
+            )
+            .addFilterAfter(
+                securityContextFilter,
+                JwtAuthenticationFilter::class.java
+            )
+            .addFilterAfter(
+                applicationRequestContextFilter,
+                SecurityContextFilter::class.java
             )
 
         return http.build()

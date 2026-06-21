@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "================================="
-echo "Stopping KoffeeStrap"
+echo "Stopping OmniHub"
 echo "================================="
 
 cd ../compose || exit
@@ -9,5 +9,5 @@ cd ../compose || exit
 docker compose down
 
 echo "================================="
-echo "KoffeeStrap Stopped"
+echo "OmniHub Stopped"
 echo "================================="

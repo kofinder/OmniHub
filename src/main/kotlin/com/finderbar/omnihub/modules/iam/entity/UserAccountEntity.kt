@@ -6,6 +6,7 @@ import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
 import jakarta.persistence.ForeignKey
 import jakarta.persistence.JoinColumn
+import jakarta.persistence.OneToMany
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 import jakarta.persistence.UniqueConstraint
@@ -84,8 +85,29 @@ class UserAccountEntity(
     var passwordChangedAt: LocalDateTime? = null,
 
     @Column(name = "locked_until")
-    var lockedUntil: LocalDateTime? = null
+    var lockedUntil: LocalDateTime? = null,
+
+    @OneToMany(
+        mappedBy = "user",
+        fetch = FetchType.LAZY
+    )
+    var userRoles: MutableSet<UserRoleEntity> = mutableSetOf()
 ) : BaseEntity() {
+
+    fun getRoleCodes(): List<String> {
+        return userRoles .map { it.role.code }
+    }
+
+    fun getPermissionCodes(): List<String> {
+        return userRoles
+            .flatMap {
+                it.role.rolePermissions.map { permission ->
+                    permission.permission.code
+                }
+            }
+            .distinct()
+    }
+
     fun increaseFailedLoginAttempts() {
         failedLoginAttempts++
     }

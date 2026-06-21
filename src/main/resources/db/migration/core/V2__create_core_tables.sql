@@ -1,4 +1,5 @@
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
+CREATE SCHEMA IF NOT EXISTS core;
 
 CREATE TABLE core.company (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),

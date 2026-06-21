@@ -5,7 +5,6 @@ import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
 import java.util.Date
 import javax.crypto.SecretKey
@@ -22,13 +21,15 @@ class JwtTokenService(
     private fun getKey(): SecretKey =
         Keys.hmacShaKeyFor(secret.toByteArray())
 
-    fun generateToken(user: UserDetails): String {
-
+    fun generateToken(user: UserAccountEntity): String {
         return Jwts.builder()
             .subject(user.username)
+            .claim("userId", user.id)
+            .claim("roles", user.getRoleCodes())
+            .claim("permissions", user.getPermissionCodes())
+            .claim("tokenVersion", user.tokenVersion)
             .issuedAt(Date())
             .expiration(Date(System.currentTimeMillis() + expiration))
-            .setExpiration(Date(System.currentTimeMillis() + 1000 * 60 * 15))
             .signWith(getKey())
             .compact()
     }
@@ -55,7 +56,6 @@ class JwtTokenService(
     fun validate(token: String, user: UserAccountEntity): Boolean {
         val claims = getClaims(token)
         val tokenVersion = claims.get("tokenVersion", Int::class.java)
-
         return tokenVersion == user.tokenVersion
     }
 
@@ -64,11 +64,15 @@ class JwtTokenService(
     }
 
     fun extractRoles(token: String): List<String> {
-        return getClaims(token).get("roles", List::class.java) as List<String>
+        return (getClaims(token)["roles"] as? List<*>)
+            ?.filterIsInstance<String>()
+            ?: emptyList()
     }
 
     fun extractPermissions(token: String): List<String> {
-        return getClaims(token).get("permissions", List::class.java) as List<String>
+        return (getClaims(token)["permissions"] as? List<*>)
+            ?.filterIsInstance<String>()
+            ?: emptyList()
     }
 
     private fun getClaims(token: String): Claims {

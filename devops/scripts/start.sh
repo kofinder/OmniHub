@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "================================="
-echo "Starting KoffeeStrap"
+echo "Starting OmniHub"
 echo "================================="
 
 cd ../compose || exit
@@ -9,7 +9,7 @@ cd ../compose || exit
 docker compose up --build -d
 
 echo "================================="
-echo "KoffeeStrap Started"
+echo "OmniHub Started"
 echo "================================="
 
 docker ps

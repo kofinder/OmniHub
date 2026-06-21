@@ -27,6 +27,17 @@ class RoleEntity(
     var name: String,
 
     @Column(columnDefinition = "TEXT")
-    var description: String? = null
+    var description: String? = null,
 
+    @OneToMany(
+        mappedBy = "role",
+        fetch = FetchType.LAZY
+    )
+    var userRoles: MutableSet<UserRoleEntity> = mutableSetOf(),
+
+    @OneToMany(
+        mappedBy = "role",
+        fetch = FetchType.LAZY
+    )
+    var rolePermissions: MutableSet<RolePermissionEntity> = mutableSetOf()
 ) : BaseEntity()

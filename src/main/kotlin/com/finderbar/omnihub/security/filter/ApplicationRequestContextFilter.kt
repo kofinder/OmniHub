@@ -10,7 +10,7 @@ import org.springframework.web.filter.OncePerRequestFilter
 import java.util.UUID
 
 @Component
-class RequestContextFilter : OncePerRequestFilter() {
+class ApplicationRequestContextFilter : OncePerRequestFilter() {
 
     override fun doFilterInternal(
         request: HttpServletRequest,

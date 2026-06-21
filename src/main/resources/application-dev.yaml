@@ -9,10 +9,6 @@ spring:
     expose-request-attributes: true
     expose-session-attributes: true
 
-  devtools:
-    restart:
-      enabled: true
-
   datasource:
     master:
       url: jdbc:postgresql://localhost:5432/omnihub
@@ -25,7 +21,8 @@ spring:
         idle-timeout: 300000
         max-lifetime: 1800000
         connection-timeout: 30000
-        pool-name: OminiHubPool
+        pool-name: OmniHubMasterPool
+
     slave:
       url: jdbc:postgresql://localhost:5432/omnihub
       username: wantana
@@ -37,8 +34,7 @@ spring:
         idle-timeout: 300000
         max-lifetime: 1800000
         connection-timeout: 30000
-        pool-name: OminiHubPool
-
+        pool-name: OmniHubSlavePool
   jpa:
     hibernate:
       ddl-auto: validate
@@ -49,19 +45,27 @@ spring:
     show-sql: false
 
   flyway:
-    enabled: true
-    baseline-on-migrate: true
-    baseline-version: 1
-    locations:
-      - classpath:db/migration/core
-      - classpath:db/migration/iam
-      - classpath:db/seed/core
-      - classpath:db/seed/iam
+    enabled: false
+#    schemas: core,iam
+#    default-schema: public
+#    enabled: true
+#    baseline-on-migrate: true
+#    baseline-version: 1
+#    locations:
+#      - classpath:db/migration/db/core
+#      - classpath:db/migration/db/iam
+#      - classpath:db/migration/seed/core
+#      - classpath:db/migration/seed/iam
+
+server:
+  port: 8080
+  forward-headers-strategy: framework
 
 jwt:
   secret: 1234567890123456789012345678901234567890123456789012345678901234
   expiration: 86400000
 
-server:
-  port: 8080
-  forward-headers-strategy: framework
+logging:
+  level:
+    org.springframework.boot.autoconfigure.flyway: DEBUG
+    org.flywaydb: DEBUG
