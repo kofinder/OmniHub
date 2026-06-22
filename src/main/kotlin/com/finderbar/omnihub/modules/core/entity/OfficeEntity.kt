@@ -10,10 +10,7 @@ import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 
 @Entity
-@Table(
-    schema = "core",
-    name = "office"
-)
+@Table(name = "core_office")
 class OfficeEntity(
 
     @Column(

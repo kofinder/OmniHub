@@ -5,10 +5,7 @@ import jakarta.persistence.Entity
 import jakarta.persistence.Table
 
 @Entity
-@Table(
-    schema = "core",
-    name = "company"
-)
+@Table(name = "core_company")
 class CompanyEntity(
 
     @Column(

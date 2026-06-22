@@ -4,8 +4,7 @@ import jakarta.persistence.*
 import java.time.LocalDateTime
 @Entity
 @Table(
-    schema = "iam",
-    name = "refresh_token",
+    name = "iam_refresh_token",
     indexes = [
         Index(name = "idx_refresh_token_token", columnList = "token"),
         Index(name = "idx_refresh_token_user", columnList = "user_id")

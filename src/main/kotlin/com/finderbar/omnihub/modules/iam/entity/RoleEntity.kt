@@ -4,8 +4,7 @@ import jakarta.persistence.*
 
 @Entity
 @Table(
-    schema = "iam",
-    name = "role",
+    name = "iam_role",
     uniqueConstraints = [
         UniqueConstraint(
             name = "uk_role_code",

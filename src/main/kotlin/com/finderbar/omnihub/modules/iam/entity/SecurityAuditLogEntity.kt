@@ -7,7 +7,7 @@ import jakarta.persistence.*
 import java.time.LocalDateTime
 
 @Entity
-@Table(schema = "iam", name = "security_audit_log")
+@Table(name = "iam_security_audit_log")
 class SecurityAuditLogEntity(
 
     @Column(nullable = false)

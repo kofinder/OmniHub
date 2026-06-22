@@ -9,8 +9,7 @@ import jakarta.persistence.UniqueConstraint
 
 @Entity
 @Table(
-    schema = "core",
-    name = "business_type",
+    name = "core_business_type",
     uniqueConstraints = [
         UniqueConstraint(
             name = "uk_business_type_code",

@@ -11,8 +11,7 @@ import jakarta.persistence.UniqueConstraint
 
 @Entity
 @Table(
-    schema = "iam",
-    name = "role_permission",
+    name = "iam_role_permission",
     uniqueConstraints = [
         UniqueConstraint(
             name = "uk_role_permission",

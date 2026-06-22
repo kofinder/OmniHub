@@ -5,8 +5,7 @@ import com.finderbar.omnihub.core.entity.BaseEntity
 import jakarta.persistence.*
 @Entity
 @Table(
-    schema = "iam",
-    name = "permission",
+    name = "iam_permission",
     uniqueConstraints = [
         UniqueConstraint(
             name = "uk_permission_code",

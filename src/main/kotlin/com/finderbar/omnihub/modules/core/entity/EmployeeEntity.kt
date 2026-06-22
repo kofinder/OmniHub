@@ -11,10 +11,7 @@ import jakarta.persistence.Table
 import java.time.LocalDate
 
 @Entity
-@Table(
-    schema = "core",
-    name = "employee"
-)
+@Table(name = "core_employee")
 class EmployeeEntity(
 
     @Column(

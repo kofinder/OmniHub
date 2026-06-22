@@ -14,8 +14,7 @@ import java.time.LocalDateTime
 
 @Entity
 @Table(
-    schema = "iam",
-    name = "user_account",
+    name = "iam_user_account",
     uniqueConstraints = [
         UniqueConstraint(
             name = "uk_user_account_username",

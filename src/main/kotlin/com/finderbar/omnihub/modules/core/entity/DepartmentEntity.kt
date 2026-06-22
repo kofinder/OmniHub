@@ -12,8 +12,7 @@ import jakarta.persistence.UniqueConstraint
 
 @Entity
 @Table(
-    schema = "core",
-    name = "department",
+    name = "core_department",
     uniqueConstraints = [
         UniqueConstraint(
             name = "uk_department_business_code",

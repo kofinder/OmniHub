@@ -7,10 +7,7 @@ import jakarta.persistence.Table
 
 
 @Entity
-@Table(
-    schema = "core",
-    name = "position"
-)
+@Table(name = "core_position")
 class PositionEntity(
 
     @Column(

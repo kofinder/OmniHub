@@ -9,10 +9,7 @@ import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 
 @Entity
-@Table(
-    schema = "core",
-    name = "branch"
-)
+@Table(name = "core_branch")
 class BranchEntity(
 
     @Column(
