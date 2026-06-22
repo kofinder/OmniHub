@@ -45,17 +45,15 @@ spring:
     show-sql: false
 
   flyway:
-    schemas: core,iam,inv
-    default-schema: core
+    schemas: public
+    default-schema: public
     create-schemas: true
     enabled: true
     baseline-on-migrate: true
     baseline-version: 1
     locations:
-      - classpath:db/migration/core
-      - classpath:db/migration/iam
-      - classpath:seed/migration/core
-      - classpath:seed/migration/iam
+      - classpath:db/migration
+      - classpath:db/seed
 
 server:
   port: 8080

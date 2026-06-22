@@ -1,4 +1,4 @@
-INSERT INTO core.business_type (
+INSERT INTO core_business_type (
     code,
     name,
     description

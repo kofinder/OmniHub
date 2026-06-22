@@ -1,4 +1,4 @@
-INSERT INTO core.employee (
+INSERT INTO core_employee (
 
     employee_no,
 
@@ -35,9 +35,9 @@ SELECT
 
     CURRENT_DATE
 
-FROM core.department d
+FROM core_department d
 
-         JOIN core.position p
+         JOIN core_position p
 
               ON p.code = 'MANAGER'
 

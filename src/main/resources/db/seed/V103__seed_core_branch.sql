@@ -1,4 +1,4 @@
-INSERT INTO core.branch (
+INSERT INTO core_branch (
 
     office_id,
 
@@ -28,7 +28,7 @@ SELECT
 
     'Maha Bandula Road, Yangon'
 
-FROM core.office o
+FROM core_office o
 
 WHERE o.code = 'YGN-HQ'
 

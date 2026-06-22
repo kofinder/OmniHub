@@ -1,6 +1,6 @@
 -- Restaurant
 
-INSERT INTO core.business (
+INSERT INTO core_business (
 
     branch_id,
 
@@ -34,9 +34,9 @@ SELECT
 
     'Yangon Downtown'
 
-FROM core.branch b
+FROM core_branch b
 
-         JOIN core.business_type bt
+         JOIN core_business_type bt
 
               ON bt.code = 'RESTAURANT'
 
@@ -47,7 +47,7 @@ WHERE b.code = 'DT01'
 
 -- Coffee Shop
 
-INSERT INTO core.business (
+INSERT INTO core_business (
 
     branch_id,
 
@@ -81,9 +81,9 @@ SELECT
 
     'Yangon Downtown'
 
-FROM core.branch b
+FROM core_branch b
 
-         JOIN core.business_type bt
+         JOIN core_business_type bt
 
               ON bt.code = 'COFFEE_SHOP'
 
@@ -94,7 +94,7 @@ WHERE b.code = 'DT01'
 
 -- Mini Mart
 
-INSERT INTO core.business (
+INSERT INTO core_business (
 
     branch_id,
 
@@ -128,9 +128,9 @@ SELECT
 
     'Yangon Downtown'
 
-FROM core.branch b
+FROM core_branch b
 
-         JOIN core.business_type bt
+         JOIN core_business_type bt
 
               ON bt.code = 'MINI_MART'
 

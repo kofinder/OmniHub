@@ -1,4 +1,4 @@
-INSERT INTO iam.user_account (
+INSERT INTO iam_user_account (
     employee_id,
     username,
     password_hash

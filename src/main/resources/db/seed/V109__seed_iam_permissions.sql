@@ -1,4 +1,4 @@
-INSERT INTO iam.permission (code, name, description)
+INSERT INTO iam_permission (code, name, description)
 VALUES
 
     ('USER_READ', 'Read Users', 'View user accounts'),

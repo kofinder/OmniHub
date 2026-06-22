@@ -1,4 +1,4 @@
-INSERT INTO core.office (
+INSERT INTO core_office (
 
     company_id,
 
@@ -28,7 +28,7 @@ SELECT
 
     'Bahan Township, Yangon'
 
-FROM core.company c
+FROM core_company c
 
 WHERE c.code = 'MBG'
 

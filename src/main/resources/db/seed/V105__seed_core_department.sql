@@ -1,6 +1,6 @@
 -- Restaurant
 
-INSERT INTO core.department (
+INSERT INTO core_department (
 
     business_id,
 
@@ -18,14 +18,14 @@ SELECT
 
     'Kitchen'
 
-FROM core.business b
+FROM core_business b
 
 WHERE b.code = 'REST01'
 
     ON CONFLICT DO NOTHING;
 
 
-INSERT INTO core.department (
+INSERT INTO core_department (
 
     business_id,
 
@@ -43,7 +43,7 @@ SELECT
 
     'Service'
 
-FROM core.business b
+FROM core_business b
 
 WHERE b.code = 'REST01'
 
@@ -52,7 +52,7 @@ WHERE b.code = 'REST01'
 
 -- Coffee Shop
 
-INSERT INTO core.department (
+INSERT INTO core_department (
 
     business_id,
 
@@ -70,7 +70,7 @@ SELECT
 
     'Bar'
 
-FROM core.business b
+FROM core_business b
 
 WHERE b.code = 'COFFEE01'
 
@@ -79,7 +79,7 @@ WHERE b.code = 'COFFEE01'
 
 -- Mini Mart
 
-INSERT INTO core.department (
+INSERT INTO core_department (
 
     business_id,
 
@@ -97,14 +97,14 @@ SELECT
 
     'Warehouse'
 
-FROM core.business b
+FROM core_business b
 
 WHERE b.code = 'MART01'
 
     ON CONFLICT DO NOTHING;
 
 
-INSERT INTO core.department (
+INSERT INTO core_department (
 
     business_id,
 
@@ -122,7 +122,7 @@ SELECT
 
     'Sales'
 
-FROM core.business b
+FROM core_business b
 
 WHERE b.code = 'MART01'
 

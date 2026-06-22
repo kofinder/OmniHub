@@ -1,4 +1,4 @@
-INSERT INTO core.position (
+INSERT INTO core_position (
 
     code,
 

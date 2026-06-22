@@ -1,4 +1,4 @@
-INSERT INTO iam.role (code, name, description)
+INSERT INTO iam_role (code, name, description)
 VALUES
     ('SUPER_ADMIN', 'Super Admin', 'Full system access'),
     ('ADMIN', 'Admin', 'System administrator'),

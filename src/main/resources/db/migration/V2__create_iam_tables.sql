@@ -1,16 +1,16 @@
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
-CREATE SCHEMA IF NOT EXISTS iam;
 
 -- =========================
 -- USER ACCOUNT
 -- =========================
-CREATE TABLE iam.user_account (
+CREATE TABLE iam_user_account (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     employee_id UUID NOT NULL UNIQUE,
     username VARCHAR(100) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
     enabled BOOLEAN NOT NULL DEFAULT TRUE,
     token_version INTEGER NOT NULL DEFAULT 0,
+    version BIGINT NOT NULL DEFAULT 0,
     account_non_expired BOOLEAN NOT NULL DEFAULT TRUE,
     account_non_locked BOOLEAN NOT NULL DEFAULT TRUE,
     credentials_non_expired BOOLEAN NOT NULL DEFAULT TRUE,
@@ -23,20 +23,21 @@ CREATE TABLE iam.user_account (
 
     CONSTRAINT fk_user_account_employee
     FOREIGN KEY (employee_id)
-      REFERENCES core.employee(id)
+      REFERENCES core_employee(id)
 );
 CREATE INDEX idx_user_account_employee_id
-    ON iam.user_account(employee_id);
+    ON iam_user_account(employee_id);
 
 
 -- =========================
 -- ROLE
 -- =========================
-CREATE TABLE iam.role (
+CREATE TABLE iam_role (
       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
       code VARCHAR(100) NOT NULL UNIQUE,
       name VARCHAR(255) NOT NULL,
       description TEXT,
+      version BIGINT NOT NULL DEFAULT 0,
       created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -44,11 +45,12 @@ CREATE TABLE iam.role (
 -- =========================
 -- PERMISSION
 -- =========================
-CREATE TABLE iam.permission (
+CREATE TABLE iam_permission (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     code VARCHAR(100) NOT NULL UNIQUE,
     name VARCHAR(255) NOT NULL,
     description TEXT,
+    version BIGINT NOT NULL DEFAULT 0,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -56,10 +58,11 @@ CREATE TABLE iam.permission (
 -- =========================
 -- USER ROLE
 -- =========================
-CREATE TABLE iam.user_role (
+CREATE TABLE iam_user_role (
    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
    user_account_id UUID NOT NULL,
    role_id UUID NOT NULL,
+   version BIGINT NOT NULL DEFAULT 0,
    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -68,24 +71,25 @@ CREATE TABLE iam.user_role (
 
    CONSTRAINT fk_user_role_user
        FOREIGN KEY (user_account_id)
-           REFERENCES iam.user_account(id),
+           REFERENCES iam_user_account(id),
 
    CONSTRAINT fk_user_role_role
        FOREIGN KEY (role_id)
-           REFERENCES iam.role(id)
+           REFERENCES iam_role(id)
 );
 CREATE INDEX idx_user_role_user_account_id
-    ON iam.user_role(user_account_id);
+    ON iam_user_role(user_account_id);
 
 CREATE INDEX idx_user_role_role_id
-    ON iam.user_role(role_id);
+    ON iam_user_role(role_id);
 
 -- =========================
 -- ROLE PERMISSION
 -- =========================
-CREATE TABLE iam.role_permission (
+CREATE TABLE iam_role_permission (
      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
      role_id UUID NOT NULL,
+     version BIGINT NOT NULL DEFAULT 0,
      permission_id UUID NOT NULL,
      created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
      updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -95,25 +99,26 @@ CREATE TABLE iam.role_permission (
 
      CONSTRAINT fk_role_permission_role
          FOREIGN KEY (role_id)
-             REFERENCES iam.role(id),
+             REFERENCES iam_role(id),
 
      CONSTRAINT fk_role_permission_permission
          FOREIGN KEY (permission_id)
-             REFERENCES iam.permission(id)
+             REFERENCES iam_permission(id)
 );
 CREATE INDEX idx_role_permission_role_id
-    ON iam.role_permission(role_id);
+    ON iam_role_permission(role_id);
 
 CREATE INDEX idx_role_permission_permission_id
-    ON iam.role_permission(permission_id);
+    ON iam_role_permission(permission_id);
 
 -- =========================================
 -- SECURITY AUDIT LOG
 -- =========================================
-CREATE TABLE iam.security_audit_log (
+CREATE TABLE iam_security_audit_log (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     username VARCHAR(100) NOT NULL,
     event_type VARCHAR(50) NOT NULL,
+    version BIGINT NOT NULL DEFAULT 0,
     -- Example: LOGIN_SUCCESS, LOGIN_FAILED, LOGOUT, PASSWORD_CHANGE, ROLE_ASSIGN
     event_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     success BOOLEAN NOT NULL,
@@ -125,18 +130,18 @@ CREATE TABLE iam.security_audit_log (
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 CREATE INDEX idx_audit_username
-    ON iam.security_audit_log(username);
+    ON iam_security_audit_log(username);
 
 CREATE INDEX idx_audit_event_type
-    ON iam.security_audit_log(event_type);
+    ON iam_security_audit_log(event_type);
 
 CREATE INDEX idx_audit_event_time
-    ON iam.security_audit_log(event_time);
+    ON iam_security_audit_log(event_time);
 
 -- =========================================
 -- REFRESH TOKEN TABLE
 -- =========================================
-CREATE TABLE iam.refresh_token (
+CREATE TABLE iam_refresh_token (
    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 
    user_id UUID NOT NULL,
@@ -146,7 +151,7 @@ CREATE TABLE iam.refresh_token (
    session_id VARCHAR(100) NOT NULL,
 
    device_info TEXT,
-
+   version BIGINT NOT NULL DEFAULT 0,
    ip_address VARCHAR(100),
 
    device_hash VARCHAR(100),
@@ -163,19 +168,19 @@ CREATE TABLE iam.refresh_token (
 
    CONSTRAINT fk_refresh_token_user
        FOREIGN KEY (user_id)
-           REFERENCES iam.user_account(id)
+           REFERENCES iam_user_account(id)
            ON DELETE CASCADE
 
 );
 
 CREATE INDEX idx_refresh_token_token
-    ON iam.refresh_token(token);
+    ON iam_refresh_token(token);
 
 CREATE INDEX idx_refresh_token_user
-    ON iam.refresh_token(user_id);
+    ON iam_refresh_token(user_id);
 
 CREATE INDEX idx_refresh_token_session
-    ON iam.refresh_token(session_id);
+    ON iam_refresh_token(session_id);
 
 CREATE INDEX idx_refresh_token_expired
-    ON iam.refresh_token(expired_at);
+    ON iam_refresh_token(expired_at);
