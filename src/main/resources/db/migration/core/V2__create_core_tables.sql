@@ -24,7 +24,7 @@ CREATE TABLE core.office (
     address TEXT,
     active BOOLEAN NOT NULL DEFAULT TRUE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT fk_office_company
         FOREIGN KEY (company_id)
@@ -41,7 +41,7 @@ CREATE TABLE core.branch (
      address TEXT,
      active BOOLEAN NOT NULL DEFAULT TRUE,
      created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
      CONSTRAINT fk_branch_office
          FOREIGN KEY (office_id)
@@ -71,7 +71,7 @@ CREATE TABLE core.business (
    address TEXT,
    active BOOLEAN NOT NULL DEFAULT TRUE,
    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
    CONSTRAINT fk_business_branch
        FOREIGN KEY (branch_id)
@@ -90,7 +90,7 @@ CREATE TABLE core.department (
      description TEXT,
      active BOOLEAN NOT NULL DEFAULT TRUE,
      created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
      CONSTRAINT uk_department_business_code
          UNIQUE (business_id, code),
@@ -115,15 +115,15 @@ CREATE TABLE core.employee (
    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
    employee_no VARCHAR(100) NOT NULL UNIQUE,
    department_id UUID NOT NULL,
-   job_id UUID NOT NULL,
+   position_id UUID NOT NULL,
    first_name VARCHAR(100) NOT NULL,
    last_name VARCHAR(100) NOT NULL,
    phone VARCHAR(50),
-   email VARCHAR(255)
+   email VARCHAR(255),
    hire_date DATE,
    active BOOLEAN NOT NULL DEFAULT TRUE,
    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
    CONSTRAINT fk_employee_department
        FOREIGN KEY (department_id)
@@ -131,5 +131,5 @@ CREATE TABLE core.employee (
 
    CONSTRAINT fk_employee_position
        FOREIGN KEY (position_id)
-           REFERENCES core.job(id)
+           REFERENCES core.position(id)
 );

@@ -12,7 +12,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(
-    schema = "inventory",
+    schema = "inv",
     name = "category",
     indexes = [
 //        Index(name = "idx_category_business_id", columnList = "business_id"),

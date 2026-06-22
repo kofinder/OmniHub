@@ -1,13 +1,4 @@
 plugins {
-//    kotlin("jvm") version "2.2.21"
-//    kotlin("plugin.spring") version "2.2.21"
-//    kotlin("plugin.jpa") version "2.2.21"
-//
-//    id("org.springframework.boot") version "4.0.0"
-//    id("io.spring.dependency-management") version "1.1.7"
-//
-//    war
-
     kotlin("jvm") version "2.2.21"
     kotlin("plugin.spring") version "2.2.21"
     war
@@ -67,12 +58,9 @@ dependencies {
     // Database
     // -----------------------------
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.flywaydb:flyway-core:12.+")
-    runtimeOnly("org.postgresql:postgresql:42.7.3")
-
-//    implementation("org.flywaydb:flyway-core")
-
-//    runtimeOnly("org.postgresql:postgresql")
+    implementation("org.springframework.boot:spring-boot-starter-flyway")
+    implementation("org.flywaydb:flyway-database-postgresql")
+    runtimeOnly("org.postgresql:postgresql")
 
     // -----------------------------
     // Kotlin
@@ -85,7 +73,7 @@ dependencies {
     // -----------------------------
     // Development
     // -----------------------------
-//    developmentOnly("org.springframework.boot:spring-boot-devtools")
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
 
     // -----------------------------
     // Tomcat WAR
@@ -96,10 +84,6 @@ dependencies {
     // Testing
     // -----------------------------
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-
-//    testImplementation("org.springframework.security:spring-security-test")
-//
-//    testImplementation("org.springframework.graphql:spring-graphql-test")
 
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 }
