@@ -6,7 +6,7 @@ echo "================================="
 
 cd ../compose || exit
 
-docker compose build
+docker compose build --no-cache
 
 echo "================================="
 echo "Build Complete"
