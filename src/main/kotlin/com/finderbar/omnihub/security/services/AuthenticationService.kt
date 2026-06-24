@@ -1,8 +1,13 @@
 package com.finderbar.omnihub.security.services
 
 import com.finderbar.omnihub.core.api.ApiResponse
+import com.finderbar.omnihub.modules.core.repository.EmployeeRepository
 import com.finderbar.omnihub.modules.iam.command.AuthLoginCommand
+import com.finderbar.omnihub.modules.iam.command.AuthRegisterCommand
+import com.finderbar.omnihub.modules.iam.entity.UserAccountEntity
+import com.finderbar.omnihub.modules.iam.entity.UserRoleEntity
 import com.finderbar.omnihub.modules.iam.model.LoginModel
+import com.finderbar.omnihub.modules.iam.repository.RoleRepository
 import com.finderbar.omnihub.modules.iam.repository.UserAccountRepository
 import com.finderbar.omnihub.modules.iam.services.RefreshTokenService
 import com.finderbar.omnihub.modules.utility.SecurityEventType
@@ -11,6 +16,7 @@ import jakarta.servlet.http.HttpServletRequest
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.UUID
@@ -20,14 +26,57 @@ import java.util.UUID
 class AuthenticationService(
     private val jwtTokenService: JwtTokenService,
     private val userRepository: UserAccountRepository,
+    private val employeeRepository: EmployeeRepository,
     private val refreshService: RefreshTokenService,
     private val securityAuditService: SecurityAuditService,
     private val deviceFingerprintService: DeviceFingerprintService,
     private val anomalyService: LoginAnomalyService,
     private val rateLimitService: LoginRateLimitService,
     private val geoIpService: GeoIpService,
+    private val roleRepository: RoleRepository,
+    private val passwordEncoder: PasswordEncoder,
     private val authenticationManager: AuthenticationManager
 ) {
+
+    fun register(request: AuthRegisterCommand): ApiResponse<String> {
+
+        require(request.username.isNotBlank()) { "Username is required" }
+        require(request.password.isNotBlank()) { "Password is required" }
+        require(request.employeeId.isNotBlank()) { "Employee is required" }
+
+        val employee = employeeRepository.findById(UUID.fromString(request.employeeId))
+            .orElseThrow { IllegalArgumentException("Employee is not found") }
+
+        // ✅ IMPORTANT: enforce 1 employee = 1 user
+        if (userRepository.existsByEmployeeId(employee.id!!)) {
+            throw IllegalArgumentException("Employee already has a user account")
+        }
+
+        if (userRepository.existsByUsername(request.username)) {
+            throw IllegalArgumentException("Username already exists")
+        }
+
+        val defaultRole = roleRepository.findByCode("STAFF")
+            ?: throw IllegalStateException("Default role STAFF not found")
+
+        val user = UserAccountEntity(
+            employee = employee,
+            username = request.username.trim(),
+            passwordHash = passwordEncoder.encode(request.password)!!,
+            enabled = true
+        )
+
+        user.userRoles.add(
+            UserRoleEntity(
+                user = user,
+                role = defaultRole
+            )
+        )
+
+        userRepository.save(user)
+
+        return ApiResponse.ok("User registered successfully")
+    }
 
     @Transactional
     fun login(
@@ -189,4 +238,6 @@ class AuthenticationService(
             details = "User logged out"
         )
     }
+
+
 }

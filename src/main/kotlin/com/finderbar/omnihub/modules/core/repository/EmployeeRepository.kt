@@ -1,4 +1,10 @@
 package com.finderbar.omnihub.modules.core.repository
 
-class EmployeeRepository {
-}
+import com.finderbar.omnihub.modules.core.entity.EmployeeEntity
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.stereotype.Repository
+import java.util.UUID
+
+
+@Repository
+interface EmployeeRepository : JpaRepository<EmployeeEntity, UUID> {}

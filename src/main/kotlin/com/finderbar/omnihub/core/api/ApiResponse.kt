@@ -33,7 +33,7 @@ data class ApiResponse<T>(
                 message = message
             )
 
-        fun ok(message: String): ApiResponse<Unit> = ApiResponse(
+        fun ok(message: String): ApiResponse<String> = ApiResponse(
             success = false,
             message = message
         )

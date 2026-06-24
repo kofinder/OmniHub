@@ -15,4 +15,6 @@ interface UserAccountRepository : JpaRepository<UserAccountEntity, UUID> {
     fun existsByUsername(
         username: String
     ): Boolean
+
+    fun existsByEmployeeId(employeeId: UUID): Boolean
 }

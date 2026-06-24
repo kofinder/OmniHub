@@ -17,4 +17,8 @@ interface RoleRepository : JpaRepository<RoleEntity, UUID>, JpaSpecificationExec
         WHERE ur.user.id = :userId
     """)
     fun findRolesByUserId(userId: UUID): List<RoleEntity>
+
+    fun findByName(name: String): RoleEntity?
+
+    fun findByCode(code: String): RoleEntity?
 }

@@ -2,6 +2,7 @@ package com.finderbar.omnihub.modules.iam.api
 
 import com.finderbar.omnihub.core.api.ApiResponse
 import com.finderbar.omnihub.modules.iam.command.AuthLoginCommand
+import com.finderbar.omnihub.modules.iam.command.AuthRegisterCommand
 import com.finderbar.omnihub.modules.iam.command.RefreshTokenCommand
 import com.finderbar.omnihub.modules.iam.model.LoginModel
 import com.finderbar.omnihub.security.services.AuthenticationService
@@ -14,6 +15,11 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api/auth")
 class AuthenticationController(private val authService: AuthenticationService) {
+
+    @PostMapping("/register")
+    fun register(@RequestBody request: AuthRegisterCommand): ApiResponse<String> {
+        return authService.register(request);
+    }
 
     @PostMapping("/login")
     fun login(@RequestBody command: AuthLoginCommand, request: HttpServletRequest): ApiResponse<LoginModel> {
