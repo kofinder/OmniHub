@@ -78,7 +78,8 @@ dependencies {
     // -----------------------------
     // Tomcat WAR
     // -----------------------------
-    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+//    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+    implementation("org.springframework.boot:spring-boot-starter-tomcat")
 
     // -----------------------------
     // Testing
@@ -99,6 +100,10 @@ allOpen {
     annotation("jakarta.persistence.Entity")
     annotation("jakarta.persistence.MappedSuperclass")
     annotation("jakarta.persistence.Embeddable")
+}
+
+tasks.withType<War> {
+    enabled = true
 }
 
 tasks.withType<Test> {

@@ -9,24 +9,61 @@ spring:
     expose-request-attributes: true
     expose-session-attributes: true
 
-  devtools:
-    restart:
-      enabled: true
-
   datasource:
-      url: jdbc:postgresql://postgres:5432/koffeedb
+    master:
+      url: jdbc:postgresql://postgres:5432/omnihub
       username: postgres
       password: postgres
       driver-class-name: org.postgresql.Driver
+      hikari:
+        minimum-idle: 5
+        maximum-pool-size: 20
+        idle-timeout: 300000
+        max-lifetime: 1800000
+        connection-timeout: 30000
+        pool-name: OmniHubMasterPool
 
+    slave:
+      url: jdbc:postgresql://postgres:5432/omnihub
+      username: postgres
+      password: postgres
+      driver-class-name: org.postgresql.Driver
+      hikari:
+        minimum-idle: 5
+        maximum-pool-size: 20
+        idle-timeout: 300000
+        max-lifetime: 1800000
+        connection-timeout: 30000
+        pool-name: OmniHubSlavePool
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     properties:
+      default_schema: public
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: true
+    show-sql: false
+
+  flyway:
+    schemas: public
+    default-schema: public
+    create-schemas: true
+    enabled: true
+#    baseline-on-migrate: true
+#    baseline-version: 1
+    locations:
+      - classpath:db/migration
+      - classpath:db/seed
 
 server:
   port: 8080
   forward-headers-strategy: framework
+
+jwt:
+  secret: 1234567890123456789012345678901234567890123456789012345678901234
+  expiration: 86400000
+
+logging:
+  level:
+    org.springframework.boot.autoconfigure.flyway: DEBUG
+    org.flywaydb: DEBUG

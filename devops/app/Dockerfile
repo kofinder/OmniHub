@@ -7,7 +7,8 @@ WORKDIR /app
 
 COPY . .
 
-RUN gradle clean build -x test
+# Build WAR (important: skip tests optional)
+RUN gradle clean bootWar -x test
 
 # ===============================
 # Runtime Stage
@@ -16,8 +17,10 @@ FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 
-COPY --from=build /app/build/libs/*.jar app.jar
+# Copy generated WAR (safe name)
+COPY --from=build /app/build/libs/*.war app.war
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Run WAR as executable Spring Boot application
+ENTRYPOINT ["java", "-jar", "app.war"]

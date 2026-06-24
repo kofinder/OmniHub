@@ -1,6 +1,6 @@
 FROM postgres:16
 
-ENV POSTGRES_DB=koffeedb
+ENV POSTGRES_DB=omnihub
 ENV POSTGRES_USER=postgres
 ENV POSTGRES_PASSWORD=postgres
 

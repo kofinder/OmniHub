@@ -1,14 +1,14 @@
-name: koffeestrap
+name: omnihub
 
 services:
 
   postgres:
     build:
       context: ../postgres
-    container_name: koffeedb
+    container_name: omnihub
 
     environment:
-      POSTGRES_DB: koffeedb
+      POSTGRES_DB: omnihub
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
 
@@ -22,7 +22,7 @@ services:
     build:
       context: ../..
       dockerfile: devops/app/Dockerfile
-    container_name: koffeestrap-app
+    container_name: omnihub-app
 
     depends_on:
       - postgres
@@ -37,7 +37,7 @@ services:
     build:
       context: ../nginx
 
-    container_name: koffeestrap-nginx
+    container_name: omnihub-nginx
 
     depends_on:
       - app
