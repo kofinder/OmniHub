@@ -131,3 +131,8 @@ After startup, the app listens on:
 - Flyway migrations and seed data are enabled in the `docker` and `dev` profiles.
 - The project uses Spring Boot, FreeMarker templates, JPA, Flyway, and PostgreSQL.
 - If the app fails on startup, first check that PostgreSQL is running and that the active Spring profile matches your environment.
+
+
+
+# Postgres Login
+- docker exec -it omnihub psql -U postgres -d omnihub
