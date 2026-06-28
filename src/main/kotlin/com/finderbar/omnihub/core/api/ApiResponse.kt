@@ -27,7 +27,7 @@ data class ApiResponse<T>(
 
         fun error(
             message: String
-        ): ApiResponse<Unit> =
+        ): ApiResponse<Nothing> =
             ApiResponse(
                 success = false,
                 message = message

@@ -3,12 +3,14 @@ package com.finderbar.omnihub.core.mapper
 import com.finderbar.omnihub.core.api.PageResponse
 import org.springframework.data.domain.Page
 
-object PageResponseMapper {
-    fun <T : Any> from(
-        page: Page<T>
-    ): PageResponse<T> {
+object PageMapper {
+
+    fun <E : Any, M : Any> from(
+        page: Page<E>,
+        transform: (E) -> M
+    ): PageResponse<M> {
         return PageResponse(
-            content = page.content,
+            content = page.content.map(transform),
             page = page.number,
             size = page.size,
             totalElements = page.totalElements,
