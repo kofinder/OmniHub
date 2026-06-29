@@ -11,9 +11,5 @@ interface BranchRepository : BaseRepository<BranchEntity, UUID> {
     fun existsByCode(code: String): Boolean
 
     fun findByCode(code: String): BranchEntity?
-
-    fun countByCompanyId(id: UUID): Long?
-
-
 }
 

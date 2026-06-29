@@ -14,7 +14,7 @@ class CompanyDecorator(
     override fun decorate(
         target: CompanyModel
     ): CompanyModel {
-        target.branchCount = branchRepository.countByCompanyId(target.id)
+        target.branchCount = officeRepository.countByCompanyId(target.id)
         target.officeCount = officeRepository.countByCompanyId(target.id)
         return target
     }

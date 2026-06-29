@@ -45,8 +45,14 @@ class SecurityConfig(
             .authorizeHttpRequests {
                 it.requestMatchers("/api/auth/**").permitAll()
                 it.requestMatchers("/api/files/**").permitAll()
+                it.requestMatchers(
+                    "/v3/api-docs/**",
+                    "/swagger-ui/**",
+                    "/swagger-ui.html"
+                ).permitAll()
                 it.anyRequest().authenticated()
             }
+
             .exceptionHandling {
                 it.authenticationEntryPoint(authenticationEntryPoint)
             }

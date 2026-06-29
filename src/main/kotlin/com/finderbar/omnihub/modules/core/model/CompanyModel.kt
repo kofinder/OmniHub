@@ -61,8 +61,17 @@ data class CompanyModel(
     )
     val active: Boolean,
 
+    @field:Schema(
+        description = "Number of branches under the company",
+        example = "5",
+        nullable = true
+    )
     var branchCount: Long? = null,
 
+    @field:Schema(
+        description = "Number of offices under the company",
+        example = "12",
+        nullable = true
+    )
     var officeCount: Long? = null
-
 )

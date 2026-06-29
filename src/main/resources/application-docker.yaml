@@ -45,10 +45,10 @@ spring:
     show-sql: false
 
   flyway:
+    enabled: true
     schemas: public
     default-schema: public
     create-schemas: true
-    enabled: true
     baseline-on-migrate: true
     baseline-version: 1
     locations:

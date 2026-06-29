@@ -2,6 +2,7 @@ package com.finderbar.omnihub.modules.core.facade
 
 import com.finderbar.omnihub.core.api.ApiResponse
 import com.finderbar.omnihub.core.api.PageResponse
+import com.finderbar.omnihub.core.mapper.PageMapper
 import com.finderbar.omnihub.modules.core.command.DepartmentCreateCommand
 import com.finderbar.omnihub.modules.core.command.DepartmentUpdateCommand
 import com.finderbar.omnihub.modules.core.decorator.DepartmentDecorator
@@ -21,30 +22,52 @@ class DepartmentFacade(
     private val departmentDecorator: DepartmentDecorator
 ): DepartmentCrudFacade() {
     override fun findAll(): ApiResponse<List<DepartmentModel>> {
-        TODO("Not yet implemented")
+        val models = departmentService
+            .retrieveAllDepartments()
+            .map(departmentMapper::toModel)
+            .map(departmentDecorator::decorate)
+        return success(models)
     }
 
     override fun find(id: UUID): ApiResponse<DepartmentModel> {
-        TODO("Not yet implemented")
+        val model = departmentService
+            .retrieveDepartment(id)
+            .let(departmentMapper::toModel)
+            .let(departmentDecorator::decorate)
+        return success(model)
     }
 
     override fun search(criteria: DepartmentSearchQuery): ApiResponse<PageResponse<DepartmentModel>> {
-        TODO("Not yet implemented")
+        val page = departmentService.searchDepartment(criteria)
+        return success(
+            PageMapper.from(page) { entity ->
+                departmentDecorator.decorate(
+                    departmentMapper.toModel(entity)
+                )
+            }
+        )
     }
 
     override fun create(command: DepartmentCreateCommand): ApiResponse<DepartmentModel> {
-        TODO("Not yet implemented")
+        val entity = departmentService.createDepartment(command)
+        val model = entity
+            .let(departmentMapper::toModel)
+            .let(departmentDecorator::decorate)
+        return success(model)
     }
 
     override fun update(
         id: UUID,
         command: DepartmentUpdateCommand
     ): ApiResponse<DepartmentModel> {
-        TODO("Not yet implemented")
+        val entity = departmentService.updateDepartment(id, command)
+        val model = entity
+            .let(departmentMapper::toModel)
+            .let(departmentDecorator::decorate)
+        return success(model)
     }
 
     override fun delete(id: UUID) {
-        TODO("Not yet implemented")
+        departmentService.removeDepartment(id)
     }
-
 }
