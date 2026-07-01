@@ -1,0 +1,44 @@
+A system intended to support mini marts,
+supermarkets, convenience stores, and Retailer/WholeSale (like 7-Eleven, Makro, Big C, or Lotus's)
+
+catalog
+│
+├── Product
+├── Category
+├── Brand
+├── Barcode
+|== Nobarcode
+├── Package
+└── Unit
+
+pricing
+│
+├── Price List
+├── Promotion
+├── Discount
+└── Tax
+
+inventory
+│
+├── Warehouse
+├── Warehouse Location
+├── Stock
+├── Stock Transaction
+├── Transfer
+├── Stock Count
+└── Adjustment
+
+sales
+│
+├── POS Counter
+├── Cashier
+├── Shift
+├── Sale
+└── Sale Item
+
+purchasing
+│
+├── Supplier
+├── Purchase Order
+├── Goods Receive
+└── Supplier Invoice
