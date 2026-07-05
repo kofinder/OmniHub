@@ -7,23 +7,16 @@ class AuthLayout(
     model: AuthModel,
     config: AuthConfig,
     context: AppContext,
-    override val templatePath: String
 ) : Layout<AuthModel, AuthConfig, AppContext>(
     model,
     config,
     context
 ) {
 
+
     override val layoutName: String = "AuthLayout"
 
-    fun render(): String {
-        return when {
-            model.isLoading -> "Loading login screen..."
-            model.isLoggedIn -> "Redirecting..."
-            model.errorMessage != null -> "Error: ${model.errorMessage}"
-            else -> "Render login form"
-        }
-    }
+    override val templatePath: String = "layout/auth.ftl"
 
     fun canShowSignup(): Boolean = config.allowSignup
 

@@ -1,10 +1,9 @@
-package com.finderbar.omnihub.modules.iam.ui.login
+package com.finderbar.omnihub.modules.iam.ui.usecase
 
 import com.finderbar.omnihub.core.ui.context.AppContext
 import com.finderbar.omnihub.core.ui.layout.auth.AuthConfig
 import com.finderbar.omnihub.core.ui.layout.auth.AuthModel
 import com.finderbar.omnihub.core.ui.usecase.UseCase
-
 
 class LoginUseCase(
     model: AuthModel,

@@ -15,25 +15,6 @@ class DashboardLayout(
 
     override val templatePath: String = "DashboardLayout"
 
-    override val layoutName: String = "DashboardLayout"
+    override val layoutName: String = "layout/dashboard.ftl"
 
-    fun renderHeader(): String {
-        return "Welcome ${model.username}"
-    }
-
-    fun renderNotifications(): String {
-        return if (config.showNotifications) {
-            "Notifications: ${model.notificationCount}"
-        } else {
-            "Notifications hidden"
-        }
-    }
-
-    fun renderState(): String {
-        return when {
-            model.isRefreshing -> "Refreshing dashboard..."
-            !model.isLoggedIn -> "Not logged in"
-            else -> "Dashboard ready"
-        }
-    }
 }

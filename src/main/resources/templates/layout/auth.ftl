@@ -1,10 +1,8 @@
-<#import "/base.ftl" as base>
-
+<#import "/layout/base.ftl" as base>
 <#macro main>
     <@base.page>
         <div class="container">
-<#--            <#nested>-->
-            <h1>Auth Layout</h1>
+            <#nested>
         </div>
     </@base.page>
 </#macro>

@@ -1,6 +1,6 @@
-package com.finderbar.omnihub.core.ui.page
+package com.finderbar.omnihub.modules.iam.ui.model
 
-data class PageModel(
+data class PageViewModel(
 
     var appName: String = "Hilsa",
 

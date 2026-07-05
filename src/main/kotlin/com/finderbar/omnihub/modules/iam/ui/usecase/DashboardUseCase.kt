@@ -1,15 +1,15 @@
-package com.finderbar.omnihub.modules.iam.ui.dashboard
+package com.finderbar.omnihub.modules.iam.ui.usecase
 
 import com.finderbar.omnihub.core.ui.context.AppContext
-import com.finderbar.omnihub.core.ui.usecase.Controller
 import com.finderbar.omnihub.core.ui.layout.dashboard.DashboardConfig
 import com.finderbar.omnihub.core.ui.layout.dashboard.DashboardModel
+import com.finderbar.omnihub.core.ui.usecase.UseCase
 
-class DashboardController(
+class DashboardUseCase(
     model: DashboardModel,
     config: DashboardConfig,
     context: AppContext
-) : Controller<DashboardModel, DashboardConfig, AppContext>(
+) : UseCase<DashboardModel, DashboardConfig, AppContext>(
     model,
     config,
     context

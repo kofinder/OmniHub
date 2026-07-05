@@ -1,11 +1,10 @@
-package com.finderbar.omnihub.modules.iam.ui.login
+package com.finderbar.omnihub.modules.iam.ui.page
 
 import com.finderbar.omnihub.core.ui.context.AppContext
 import com.finderbar.omnihub.core.ui.layout.auth.AuthConfig
 import com.finderbar.omnihub.core.ui.layout.auth.AuthLayout
 import com.finderbar.omnihub.core.ui.layout.auth.AuthModel
 import com.finderbar.omnihub.core.ui.page.Page
-
 
 class LoginPage(
     model: AuthModel,
@@ -16,27 +15,9 @@ class LoginPage(
     config,
     context
 ) {
+    override val templatePath: String = "pages/login.ftl"
 
-    override val layout: AuthLayout = AuthLayout()
-
-    override val templatePath: String = ""
+    override val layout: AuthLayout = AuthLayout(model, config, context)
 
     override val pageTitle: String = "Login"
-
-    fun submit() {
-        // later: controller or viewmodel
-    }
-
-    fun goToSignup() {
-        // navigation trigger
-    }
-
-    fun renderPage(): String {
-        return """
-            Page: $pageTitle
-            App: ${context.appName}
-            Layout: ${layout.layoutName}
-            UI: ${layout.render()}
-        """.trimIndent()
-    }
 }

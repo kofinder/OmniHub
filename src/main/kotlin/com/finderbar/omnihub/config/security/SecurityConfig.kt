@@ -46,11 +46,13 @@ class SecurityConfig(
             .authorizeHttpRequests {
 
                 it.requestMatchers(
+                    "/",
                     "/login",
                     "/login/**",
                     "/css/**",
                     "/js/**",
                     "/images/**",
+                    "/vendor/**",
                     "/webjars/**",
                     "/favicon.ico"
                 ).permitAll()
