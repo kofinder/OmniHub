@@ -63,6 +63,6 @@ class VendorEntity(
         fetch = FetchType.LAZY
     )
     @BatchSize(size = 50)
-    val purchaseOrders: MutableSet<PurchaseOrderEntity> = linkedSetOf()
+    var purchaseOrders: MutableSet<PurchaseOrderEntity> = linkedSetOf()
 
 ) : BaseEntity()

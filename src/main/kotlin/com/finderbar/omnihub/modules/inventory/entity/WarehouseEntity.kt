@@ -52,10 +52,10 @@ class WarehouseEntity(
         orphanRemoval = true
     )
     @BatchSize(size = 50)
-    val locations: MutableSet<WarehouseLocationEntity> = linkedSetOf(),
+    var locations: MutableSet<WarehouseLocationEntity> = linkedSetOf(),
 
     @OneToMany(mappedBy = "warehouse")
     @BatchSize(size = 100)
-    val inventories: MutableSet<InventoryEntity> = linkedSetOf()
+    var inventories: MutableSet<InventoryEntity> = linkedSetOf()
 
 ) : BaseEntity()

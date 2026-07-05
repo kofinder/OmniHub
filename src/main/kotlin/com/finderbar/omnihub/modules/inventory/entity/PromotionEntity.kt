@@ -51,7 +51,7 @@ class PromotionEntity(
         orphanRemoval = true
     )
     @BatchSize(size = 100)
-    val conditions: MutableSet<PromotionConditionEntity> = linkedSetOf(),
+    var conditions: MutableSet<PromotionConditionEntity> = linkedSetOf(),
 
     @OneToMany(
         mappedBy = "promotion",
@@ -59,6 +59,6 @@ class PromotionEntity(
         orphanRemoval = true
     )
     @BatchSize(size = 100)
-    val rewards: MutableSet<PromotionRewardEntity> = linkedSetOf()
+    var rewards: MutableSet<PromotionRewardEntity> = linkedSetOf()
 
 ) : BaseEntity()

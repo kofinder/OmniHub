@@ -65,6 +65,6 @@ class PriceListEntity(
         orphanRemoval = true
     )
     @BatchSize(size = 100)
-    val items: MutableSet<PriceListItemEntity> = linkedSetOf()
+    var items: MutableSet<PriceListItemEntity> = linkedSetOf()
 
 ) : BaseEntity()

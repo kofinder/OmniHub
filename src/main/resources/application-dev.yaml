@@ -37,7 +37,7 @@ spring:
         pool-name: OmniHubSlavePool
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: none
     properties:
       default_schema: public
       hibernate:

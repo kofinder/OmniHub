@@ -4,6 +4,7 @@ import com.finderbar.omnihub.security.entrypoint.JwtAuthenticationEntryPoint
 import com.finderbar.omnihub.security.filter.ApplicationRequestContextFilter
 import com.finderbar.omnihub.security.filter.JwtAuthenticationFilter
 import com.finderbar.omnihub.security.filter.SecurityContextFilter
+import jakarta.servlet.http.HttpServletRequest
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
@@ -43,6 +44,17 @@ class SecurityConfig(
                 it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             }
             .authorizeHttpRequests {
+
+                it.requestMatchers(
+                    "/login",
+                    "/login/**",
+                    "/css/**",
+                    "/js/**",
+                    "/images/**",
+                    "/webjars/**",
+                    "/favicon.ico"
+                ).permitAll()
+
                 it.requestMatchers("/api/auth/**").permitAll()
                 it.requestMatchers("/api/files/**").permitAll()
                 it.requestMatchers(

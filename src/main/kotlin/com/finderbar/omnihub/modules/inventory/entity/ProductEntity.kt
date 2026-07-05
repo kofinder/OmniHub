@@ -60,6 +60,6 @@ class ProductEntity(
         orphanRemoval = true
     )
     @BatchSize(size = 50)
-    val variants: MutableSet<ProductVariantEntity> = linkedSetOf()
+    var variants: MutableSet<ProductVariantEntity> = linkedSetOf()
 
 ) : BaseEntity()

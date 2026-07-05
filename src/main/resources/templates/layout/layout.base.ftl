@@ -1,12 +1,3 @@
-
-<#--
-    KoffeeStrap Base Layout
-    Master reusable layout
-
-    Author: Ko Thein
-    Created: 2026-05-01
--->
-
 <#macro main>
 
 <!DOCTYPE html>
@@ -17,15 +8,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>
-        <#if pageTitle??>
-            ${pageTitle} | ${appName!'KoffeeStrap'}
+        <#if page.pageTitle?has_content>
+            ${page.pageTitle} | ${page.appName}
         <#else>
-            ${appName!'KoffeeStrap'}
+            ${page.appName}
         </#if>
     </title>
 
-    <meta name="description" content="${pageDescription!'Enterprise UI Framework'}">
-    <meta name="author" content="Ko Thein">
+    <meta name="description" content="${page.pageDescription}">
+    <meta name="author" content="${page.authorName}">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">

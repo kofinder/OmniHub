@@ -123,6 +123,6 @@ class GoodsReceiptEntity(
         orphanRemoval = true
     )
     @BatchSize(size = 100)
-    val items: MutableSet<GoodsReceiptItemEntity> = linkedSetOf()
+    var items: MutableSet<GoodsReceiptItemEntity> = linkedSetOf()
 
 ) : BaseEntity()

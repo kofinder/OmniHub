@@ -2,6 +2,7 @@ package com.finderbar.omnihub.modules.inventory.entity
 import com.finderbar.omnihub.core.entity.BaseEntity
 import jakarta.persistence.*
 import org.hibernate.annotations.BatchSize
+
 @Entity
 @Table(
     name = "inv_brand",

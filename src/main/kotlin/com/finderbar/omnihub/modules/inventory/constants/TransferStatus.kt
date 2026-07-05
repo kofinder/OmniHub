@@ -1,4 +1,5 @@
 package com.finderbar.omnihub.modules.inventory.constants
 
-class TransferStatus {
+enum class TransferStatus {
+    DRAFT
 }

@@ -125,6 +125,6 @@ class PurchaseReturnEntity(
         orphanRemoval = true
     )
     @BatchSize(size = 100)
-    val items: MutableSet<PurchaseReturnItemEntity> = linkedSetOf()
+    var items: MutableSet<PurchaseReturnItemEntity> = linkedSetOf()
 
 ) : BaseEntity()

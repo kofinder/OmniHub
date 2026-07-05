@@ -48,6 +48,6 @@ class WarehouseLocationEntity(
 
     @OneToMany(mappedBy = "location")
     @BatchSize(size = 100)
-    val inventories: MutableSet<InventoryEntity> = linkedSetOf()
+    var inventories: MutableSet<InventoryEntity> = linkedSetOf()
 
 ) : BaseEntity()

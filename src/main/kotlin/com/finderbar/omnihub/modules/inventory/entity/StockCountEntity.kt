@@ -86,6 +86,6 @@ class StockCountEntity(
         orphanRemoval = true
     )
     @BatchSize(size = 100)
-    val items: MutableSet<StockCountItemEntity> = linkedSetOf()
+    var items: MutableSet<StockCountItemEntity> = linkedSetOf()
 
 ) : BaseEntity()

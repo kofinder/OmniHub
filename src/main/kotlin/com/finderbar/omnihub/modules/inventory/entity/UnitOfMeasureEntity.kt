@@ -46,6 +46,6 @@ class UnitOfMeasureEntity(
 
     @OneToMany(mappedBy = "unit")
     @BatchSize(size = 50)
-    var packages: MutableSet<PackageEntity> = linkedSetOf()
+    var packages: MutableSet<PackagingEntity> = linkedSetOf()
 
 ) : BaseEntity()

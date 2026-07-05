@@ -57,4 +57,15 @@ class JwtAuthenticationFilter(
 
         chain.doFilter(request, response)
     }
+
+    override fun shouldNotFilter(
+        request: HttpServletRequest
+    ): Boolean {
+        val path = request.servletPath
+        return path == "/login" ||
+                path.startsWith("/css") ||
+                path.startsWith("/js") ||
+                path.startsWith("/vendor") ||
+                path.startsWith("/api/auth")
+    }
 }
