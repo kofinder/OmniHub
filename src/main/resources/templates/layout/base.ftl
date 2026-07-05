@@ -29,6 +29,9 @@
     <link rel="stylesheet" href="/css/koffeestrap-components.css">
     <link rel="stylesheet" href="/css/koffeestrap-utilities.css">
     <link rel="stylesheet" href="/css/themes.css">
+    
+    <!-- Login Page Styles -->
+    <link rel="stylesheet" href="/css/login.css">
 
     <!-- Optional page styles -->
     <#if pageStyles??>

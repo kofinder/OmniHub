@@ -16,7 +16,7 @@ class PageRenderer(private val tmpRender: TemplateRenderer) {
         val model = modelBuilder.build(page)
 
         return tmpRender.render(
-            page.layout.templatePath,
+            page.templatePath,
             model
         )
     }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.ResponseBody
 
 
 @Controller
@@ -30,17 +31,19 @@ class LoginController(
 
     @GetMapping("/")
     fun indexPage(): String {
-        return "layout/auth.ftl"
+        return "redirect:/login"
     }
 
 
     @GetMapping("/login")
+    @ResponseBody
     fun loginPage(): String {
         val page = LoginPage(model, config, context)
         return pageRenderer.render(page, builder)
     }
 
     @PostMapping("/login")
+    @ResponseBody
     fun login(
         @RequestParam username: String,
         @RequestParam password: String
@@ -55,6 +58,7 @@ class LoginController(
     }
 
     @PostMapping("/logout")
+    @ResponseBody
     fun logout(): String {
 
         loginUseCase.logout()
